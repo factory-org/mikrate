@@ -8,6 +8,7 @@ variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.configureondemand=true"
   GRADLE_USER_HOME: "${CI_PROJECT_DIR}/.gradle"
   DS_DEFAULT_ANALYZERS: "gemnasium-maven"
+  ASDF_JAVA_VERSION: "15"
 
 stages:
   - test
