@@ -7,7 +7,6 @@ val moduleName = "mikrate.dsl"
 
 plugins {
     kotlin("jvm")
-    id("com.github.hierynomus.license-report")
     `java-library`
     `maven-publish`
 }
