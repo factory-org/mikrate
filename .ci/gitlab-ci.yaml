@@ -1,0 +1,37 @@
+image: azul/zulu-openjdk-alpine:15-jdk
+
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.configureondemand=true"
+  GRADLE_USER_HOME: "${CI_PROJECT_DIR}/.gradle"
+
+stages:
+  - test
+  - deploy
+
+test:
+  stage: test
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}"
+    policy: pull-push
+    paths:
+      - .gradle
+      - build
+      - core/build
+      - dsl/build
+  script:
+    ./gradlew build
+
+deploy:
+  stage: deploy
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}"
+    policy: pull
+    paths:
+      - .gradle
+      - build
+      - core/build
+      - dsl/build
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+  script:
+    ./gradlew publish

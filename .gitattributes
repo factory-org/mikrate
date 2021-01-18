@@ -1,0 +1,8 @@
+# Default
+* text=auto eol=lf working-tree-encoding=UTF-8
+
+# Linux
+gradlew text eol=lf working-tree-encoding=UTF-8
+*.sh text eol=lf working-tree-encoding=UTF-8
+# Windows
+*.bat test eol=crlf working-tree-encoding=CP1252
