@@ -1,7 +1,8 @@
 image: azul/zulu-openjdk-alpine:15
 
 include:
-  template: Dependency-Scanning.gitlab-ci.yml
+  - template: Dependency-Scanning.gitlab-ci.yml
+  - template: Security/License-Scanning.gitlab-ci.yml
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.configureondemand=true"
@@ -25,8 +26,15 @@ test:
   script:
     ./gradlew build
 
+gemnasium-maven-dependency_scanning:
+  allow_failure: false
+
 deploy:
   stage: deploy
+  dependencies: [ ]
+  needs:
+    - test
+    - gemnasium-maven-dependency_scanning
   cache:
     key: "${CI_COMMIT_REF_SLUG}"
     policy: pull
