@@ -1,4 +1,4 @@
-image: azul/zulu-openjdk-alpine:15-jdk
+image: azul/zulu-openjdk-alpine:15
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.configureondemand=true"
