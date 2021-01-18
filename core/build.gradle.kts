@@ -64,7 +64,9 @@ tasks {
 
 publishing {
     publications {
-        withType<MavenPublication> {
+        create<MavenPublication>("maven") {
+            artifactId = "mikrate-core"
+
             pom {
                 licenses {
                     license {
@@ -79,12 +81,17 @@ publishing {
                         email.set("cromefire_@outlook.com")
                     }
                 }
+                scm {
+                    connection.set("scm:git:git://gitlab.com/factory-org/tools/mikrate.git")
+                    developerConnection.set("scm:git:ssh://git@gitlab.com/factory-org/tools/mikrate.git")
+                    url.set("https://gitlab.com/factory-org/tools/mikrate")
+                }
             }
         }
     }
     repositories {
         maven("https://gitlab.com/api/v4/projects/23743161/packages/maven") {
-            name = "GitLab"
+            name = "gitlab"
 
             credentials(HttpHeaderCredentials::class.java) {
                 name = "Job-Token"
