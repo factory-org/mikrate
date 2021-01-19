@@ -8,6 +8,7 @@ import factory.mikrate.dsl.helpers.ColumnRef
 @MigrationDsl
 public class CreateTableBuilder(public val tableName: String) {
     private val columns: MutableMap<String, CreateTableAction.NewColumn> = mutableMapOf()
+    private val constraints: MutableMap<String, CreateTableAction.Constraint> = mutableMapOf()
 
     public fun column(name: String, type: DbType, nullable: Boolean = false): ColumnRef {
         columns[name] = CreateTableAction.NewColumn(type, nullable, null)
@@ -23,7 +24,16 @@ public class CreateTableBuilder(public val tableName: String) {
         return ColumnRef(tableName, name)
     }
 
+    public fun unique(name: String, vararg columns: ColumnRef) {
+        constraints[name] = CreateTableAction.UniqueConstraint(columns.map { it.column })
+    }
+
+    public fun unique(vararg columns: ColumnRef) {
+        val name = "uix_${tableName}_${columns.joinToString("_") { it.column }}"
+        unique(name, columns = columns)
+    }
+
     public fun build(): CreateTableAction {
-        return CreateTableAction(tableName, columns)
+        return CreateTableAction(tableName, columns, constraints)
     }
 }
