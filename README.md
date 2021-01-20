@@ -40,7 +40,7 @@ Legend:
 
 | DBMS       | Core Support | Auto Migrate | Full JDBC Support | Full R2DBC Support | Comments |
 | ---------- | :----------: | :----------: | :---------------: | :----------------: | -------- |
-| SQLite     | ✅            | ✅            | ✅                 | ⭕<br>No Driver     |          |
+| SQLite     | ✅            | ✅            | ✅                 | ⭕<br>No Driver     | No locking implemented (but should not be needed) |
 | PostgreSQL | ✅            | ✅            | ✅                 | ✅                  |          |
 
 It is currently not possible to easily expand this to support other databases (e.g. via plugins), this is planned for

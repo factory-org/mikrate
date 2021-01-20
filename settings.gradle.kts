@@ -1,3 +1,3 @@
 rootProject.name = "mikrate"
 
-include(":dsl", ":core")
+include(":dsl", ":core", ":executors:api", ":executors:jdbc", ":executors:r2dbc")
