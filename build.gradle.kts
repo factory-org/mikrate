@@ -1,19 +1,17 @@
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
-import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformJvmPlugin
+import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.4.21" apply false
 }
 
-val excluded = listOf(":executors")
-
 subprojects {
-    if (excluded.contains(path)) {
+    if (!file("src/main/kotlin").exists()) {
         return@subprojects
     }
 
-    apply<KotlinPlatformJvmPlugin>()
+    apply<KotlinPluginWrapper>()
     apply<MavenPublishPlugin>()
 
     configure<JavaPluginExtension> {
