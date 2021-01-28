@@ -16,4 +16,7 @@ buildCache {
             isPush = isCiServer
         }
     }
+    local {
+        isEnabled = !isCiServer
+    }
 }
