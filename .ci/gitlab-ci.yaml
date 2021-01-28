@@ -14,14 +14,6 @@ stages:
 
 test:
   stage: test
-  cache:
-    key: "${CI_COMMIT_REF_SLUG}"
-    policy: pull-push
-    paths:
-      - .gradle
-      - build
-      - core/build
-      - dsl/build
   script:
     ./gradlew build
 
@@ -34,14 +26,6 @@ deploy:
   needs:
     - test
     - gemnasium-maven-dependency_scanning
-  cache:
-    key: "${CI_COMMIT_REF_SLUG}"
-    policy: pull
-    paths:
-      - .gradle
-      - build
-      - core/build
-      - dsl/build
   rules:
     - if: '$CI_COMMIT_BRANCH == "master"'
   script:
