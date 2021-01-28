@@ -1,4 +1,4 @@
-# Mikrate
+# miKrate
 
 Flexible migrations for Kotlin.
 
