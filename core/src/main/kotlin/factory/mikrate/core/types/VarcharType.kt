@@ -1,15 +1,16 @@
 package factory.mikrate.core.types
 
 import factory.mikrate.core.DbType
-import factory.mikrate.core.Dialect
+import factory.mikrate.dialects.api.TypeSqlGen
 
 public class VarcharType(public val length: Int) : DbType {
-    override fun supports(dialect: Dialect): Boolean = true
-
-    override fun toSql(dialect: Dialect): String {
-        return when (dialect) {
-            Dialect.Sqlite -> "TEXT"
-            Dialect.Postgres -> "varchar($length)"
+    init {
+        if (length <= 0) {
+            throw IllegalArgumentException("\"length\" cannot be 0 or negative")
         }
     }
+
+    override fun supports(dialect: TypeSqlGen): Boolean = dialect.supportsVarchar(length)
+
+    override fun toSql(dialect: TypeSqlGen): String = dialect.varchar(length)
 }

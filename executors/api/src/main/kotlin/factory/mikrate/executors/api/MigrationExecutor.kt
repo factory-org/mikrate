@@ -10,4 +10,9 @@ public interface MigrationExecutor : AutoCloseable {
      *
      */
     public suspend fun executeStatement(sql: String): MigrationResult
+
+    /**
+     *
+     */
+    public suspend fun listAppliedMigrations(query: String): List<LogRow>
 }

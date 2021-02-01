@@ -1,6 +1,6 @@
 package factory.mikrate.dsl
 
-import factory.mikrate.core.Dialect
+import factory.mikrate.dialects.generic.GenericCoreDialect
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.core.test.AssertionMode
 import io.kotest.matchers.string.shouldContain
@@ -15,6 +15,6 @@ class SqlActionTest : ShouldSpec({
                 sql("SELECT * FROM abc")
             }
         }
-        mig.upStatement(Dialect.Postgres) shouldContain "SELECT * FROM abc"
+        mig.upStatement(GenericCoreDialect) shouldContain "SELECT * FROM abc"
     }
 })

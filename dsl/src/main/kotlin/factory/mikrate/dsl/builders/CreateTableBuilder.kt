@@ -25,7 +25,7 @@ public class CreateTableBuilder(public val tableName: String) {
     }
 
     public fun unique(name: String, vararg columns: ColumnRef) {
-        constraints[name] = CreateTableAction.UniqueConstraint(columns.map { it.column })
+        constraints[name] = CreateTableAction.Constraint.UniqueConstraint(columns.map { it.column })
     }
 
     public fun unique(vararg columns: ColumnRef) {

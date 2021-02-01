@@ -40,13 +40,16 @@ Legend:
 
 | DBMS       | Core Support | Auto Migrate | Full JDBC Support | Full R2DBC Support | Comments |
 | ---------- | :----------: | :----------: | :---------------: | :----------------: | -------- |
+| Generic    | ✅            | ⛔            | ⛔                 | ⛔                  | Only for visualization and testing |
 | SQLite     | ✅            | ✅            | ✅                 | ⭕<br>No Driver     | No locking implemented (but should not be needed) |
 | PostgreSQL | ✅            | ✅            | ✅                 | ✅                  |          |
-
-It is currently not possible to easily expand this to support other databases (e.g. via plugins), this is planned for
-the future.
 
 ## Supported Platform
 
 Currently, only the JVM platform is supported, but in general it should be possible to convert it into a multiplatform
 project.
+
+## WIP
+
+- Better locking
+- Validation

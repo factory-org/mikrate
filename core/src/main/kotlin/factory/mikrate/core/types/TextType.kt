@@ -1,15 +1,10 @@
 package factory.mikrate.core.types
 
 import factory.mikrate.core.DbType
-import factory.mikrate.core.Dialect
+import factory.mikrate.dialects.api.TypeSqlGen
 
 public class TextType : DbType {
-    override fun supports(dialect: Dialect): Boolean = true
+    override fun supports(dialect: TypeSqlGen): Boolean = dialect.supportsText()
 
-    override fun toSql(dialect: Dialect): String {
-        return when (dialect) {
-            Dialect.Sqlite -> "TEXT"
-            Dialect.Postgres -> "text"
-        }
-    }
+    override fun toSql(dialect: TypeSqlGen): String = dialect.text()
 }

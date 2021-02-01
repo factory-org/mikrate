@@ -1,8 +1,8 @@
 package factory.mikrate.core.actions
 
 import factory.mikrate.core.DbType
-import factory.mikrate.core.Dialect
 import factory.mikrate.core.MigrateAction
+import factory.mikrate.dialects.api.CoreDialect
 
 public class CreateTableAction(
     public val name: String,
@@ -16,49 +16,21 @@ public class CreateTableAction(
         public val unique: String?
     )
 
-    public interface Constraint {
-        public fun toSql(dialect: Dialect): String?
+    public sealed class Constraint {
+        public class UniqueConstraint(public val columns: List<String>) : Constraint()
     }
 
-    public class UniqueConstraint(private val columns: List<String>) : Constraint {
-        override fun toSql(dialect: Dialect): String {
-            return when (dialect) {
-                Dialect.Postgres,
-                Dialect.Sqlite -> {
-                    //language=GenericSQL
-                    "unique (${columns.joinToString(", ")})"
-                }
+    override fun generateStatement(dialect: CoreDialect): String {
+        val columns = this.columns.map {
+            val (name, cfg) = it
+            dialect.creation.column(name, cfg.type.toSql(dialect.types), cfg.nullable, cfg.unique)
+        }
+        val constraints = this.constraints.map {
+            val (name, constraint) = it
+            when (constraint) {
+                is Constraint.UniqueConstraint -> dialect.constraints.unique(name, constraint.columns)
             }
         }
-    }
-
-    override fun generateStatement(dialect: Dialect): String {
-        return when (dialect) {
-            Dialect.Postgres,
-            Dialect.Sqlite -> {
-                val colStrings = columns.map {
-                    val (name, cfg) = it
-                    //language=GenericSQL
-                    var sql = "$name ${cfg.type.toSql(dialect)}"
-                    if (!cfg.nullable) {
-                        //language=GenericSQL
-                        sql += " NOT NULL"
-                    }
-                    if (cfg.unique != null) {
-                        //language=GenericSQL
-                        sql += " constraint ${cfg.unique} unique"
-                    }
-                    sql
-                }
-                val constrStrings = constraints.map {
-                    val (name, constraint) = it
-                    //language=GenericSQL
-                    "constraint $name ${constraint.toSql(dialect)}"
-                }
-                val body = (colStrings + constrStrings).joinToString(",\n    ")
-                //language=GenericSQL
-                "CREATE TABLE $name (\n    $body\n);".trimIndent()
-            }
-        }
+        return dialect.creation.table(name, ifNotExists, columns, constraints)
     }
 }

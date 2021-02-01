@@ -11,6 +11,10 @@ repositories {
     jcenter()
 }
 
+dependencies {
+    api(project(":dialects:dialect-api"))
+}
+
 tasks.compileJava {
     inputs.property("moduleName", moduleName)
     options.compilerArgs = listOf(

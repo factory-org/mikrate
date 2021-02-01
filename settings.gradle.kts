@@ -1,6 +1,20 @@
 rootProject.name = "mikrate"
 
-include(":dsl", ":core", ":executors:api", ":executors:jdbc", ":executors:r2dbc", ":auto-migrate")
+include(
+    ":dsl",
+    ":core",
+    ":executors:api",
+    ":executors:jdbc",
+    ":executors:r2dbc",
+    ":auto-migrate",
+    ":dialects:api",
+    ":dialects:postgres",
+    ":dialects:sqlite",
+    ":dialects:generic"
+)
+
+project(":dialects:api").name = "dialect-api"
+project(":executors:api").name = "executor-api"
 
 val isCiServer = System.getenv().containsKey("CI")
 

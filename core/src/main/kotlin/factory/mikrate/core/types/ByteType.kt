@@ -1,3 +1,11 @@
 package factory.mikrate.core.types
 
-public class ByteType : IntegerType(size = 1)
+import factory.mikrate.core.DbType
+import factory.mikrate.dialects.api.TypeSqlGen
+
+public class ByteType : DbType {
+    override fun supports(dialect: TypeSqlGen): Boolean = dialect.supportsByte()
+
+    override fun toSql(dialect: TypeSqlGen): String = dialect.byte()
+
+}

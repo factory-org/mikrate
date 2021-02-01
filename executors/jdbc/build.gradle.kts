@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    api(project(":executors:api"))
+    api(project(":executors:executor-api"))
 }
 
 tasks.compileJava {

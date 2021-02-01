@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    api(project(":executors:api"))
+    api(project(":executors:executor-api"))
 
     api("io.r2dbc:r2dbc-spi:0.8.3.RELEASE")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.4.2")

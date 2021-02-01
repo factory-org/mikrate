@@ -1,7 +1,9 @@
 package factory.mikrate.core
 
-public interface DbType {
-    public infix fun supports(dialect: Dialect): Boolean
+import factory.mikrate.dialects.api.TypeSqlGen
 
-    public fun toSql(dialect: Dialect): String
+public interface DbType {
+    public infix fun supports(dialect: TypeSqlGen): Boolean
+
+    public fun toSql(dialect: TypeSqlGen): String
 }

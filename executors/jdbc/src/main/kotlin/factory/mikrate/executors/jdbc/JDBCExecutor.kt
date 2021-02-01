@@ -1,5 +1,6 @@
 package factory.mikrate.executors.jdbc
 
+import factory.mikrate.executors.api.LogRow
 import factory.mikrate.executors.api.MigrationExecutor
 import factory.mikrate.executors.api.MigrationResult
 import java.sql.DriverManager
@@ -17,6 +18,10 @@ public class JDBCExecutor(private val connectionString: String, public val conne
             statement.execute(sql)
         }
         return MigrationResult.Success
+    }
+
+    override suspend fun listAppliedMigrations(query: String): List<LogRow> {
+        TODO("Not yet implemented")
     }
 
     override fun close() {
