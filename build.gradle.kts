@@ -57,7 +57,7 @@ subprojects {
     configure<PublishingExtension> {
         publications {
             create<MavenPublication>("maven") {
-                artifactId = "mikrate-core"
+                artifactId = convention.getPlugin<BasePluginConvention>().archivesBaseName
 
                 pom {
                     licenses {
