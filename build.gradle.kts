@@ -11,17 +11,33 @@ subprojects {
         return@subprojects
     }
 
+    val sub = this
+
     apply<KotlinPluginWrapper>()
     apply<MavenPublishPlugin>()
 
+    group = "factory.mikrate"
+
+    afterEvaluate {
+        configure<BasePluginConvention> {
+            archivesBaseName = "mikrate-${sub.extra["artifactName"]}"
+        }
+    }
+
     configure<JavaPluginExtension> {
         modularity.inferModulePath.set(true)
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(11))
+        }
     }
 
     configure<KotlinJvmProjectExtension> {
         explicitApi()
+    }
+
+    repositories {
+        jcenter()
     }
 
     tasks {
@@ -52,12 +68,23 @@ subprojects {
         getByName<KotlinCompile>("compileKotlin") {
             dependsOn(deleteCachedClasses)
         }
+
+        named<JavaCompile>("compileJava") {
+            inputs.property("moduleName", sub.extra["moduleName"])
+            val outputPath =
+                sub.extensions.getByName<SourceSetContainer>("sourceSets").named("main").get().output.asPath
+            options.compilerArgs = listOf(
+                "--patch-module", "${sub.extra["moduleName"]}=$outputPath"
+            )
+        }
     }
 
     configure<PublishingExtension> {
         publications {
-            create<MavenPublication>("maven") {
-                artifactId = "mikrate-${convention.getPlugin<BasePluginConvention>().archivesBaseName}"
+            register<MavenPublication>("maven") {
+                afterEvaluate {
+                    artifactId = "mikrate-${sub.extra["artifactName"]}"
+                }
 
                 pom {
                     licenses {

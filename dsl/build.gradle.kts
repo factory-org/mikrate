@@ -1,14 +1,8 @@
-base.archivesBaseName = "mikrate-dsl"
-group = "factory.mikrate"
 version = "0.1.0-SNAPSHOT"
-val moduleName = "mikrate.dsl"
 
-plugins {
-    kotlin("jvm")
-}
-
-repositories {
-    jcenter()
+extra.apply {
+    set("artifactName", "dsl")
+    set("moduleName", "mikrate.dsl")
 }
 
 dependencies {
@@ -24,11 +18,4 @@ dependencies {
     //testImplementation("io.kotest:kotest-extensions-testcontainers:4.3.2")
     //testImplementation("ch.qos.logback:logback-classic:1.2.3")
     //testImplementation("org.postgresql:postgresql:42.2.16")
-}
-
-tasks.compileJava {
-    inputs.property("moduleName", moduleName)
-    options.compilerArgs = listOf(
-        "--patch-module", "$moduleName=${sourceSets.main.get().output.asPath}"
-    )
 }

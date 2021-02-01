@@ -1,4 +1,4 @@
-image: azul/zulu-openjdk-alpine:15
+image: azul/zulu-openjdk-alpine:11
 
 include:
   - template: Dependency-Scanning.gitlab-ci.yml

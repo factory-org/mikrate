@@ -1,23 +1,12 @@
-base.archivesBaseName = "mikrate-dialects-postgres"
-group = "factory.mikrate"
 version = "0.1.0-SNAPSHOT"
-val moduleName = "mikrate.dialects.postgres"
 
-plugins {
-    kotlin("jvm")
-}
-
-repositories {
-    jcenter()
+extra.apply {
+    set("artifactName", "dialects-postgres")
+    set("moduleName", "mikrate.dialects.postgres")
 }
 
 dependencies {
     api(project(":dialects:dialect-api"))
 }
 
-tasks.compileJava {
-    inputs.property("moduleName", moduleName)
-    options.compilerArgs = listOf(
-        "--patch-module", "$moduleName=${sourceSets.main.get().output.asPath}"
-    )
-}
+sourceSets.main
