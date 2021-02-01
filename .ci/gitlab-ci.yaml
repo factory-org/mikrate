@@ -25,7 +25,8 @@ test:
   artifacts:
     reports:
       junit:
-        - "**/build/test-results/test/**/TEST-*.xml"
+        - "*/build/test-results/test/**/TEST-*.xml"
+        - "*/*/build/test-results/test/**/TEST-*.xml"
 
 gemnasium-maven-dependency_scanning:
   allow_failure: false
