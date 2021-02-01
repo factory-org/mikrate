@@ -22,6 +22,10 @@ test:
       - .gradle
   script:
     ./gradlew build
+  artifacts:
+    reports:
+      junit:
+        - "**/build/test-results/test/**/TEST-*.xml"
 
 gemnasium-maven-dependency_scanning:
   allow_failure: false
