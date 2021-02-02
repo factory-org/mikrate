@@ -17,6 +17,9 @@ repositories {
 tasks {
     dokkaHtmlCollector {
         offlineMode.set(true)
+        doLast {
+            projectDir.resolve("misc/index.html").copyTo(outputDirectory.get().resolve("index.html"))
+        }
     }
     dokkaHtmlMultiModule {
         offlineMode.set(true)
