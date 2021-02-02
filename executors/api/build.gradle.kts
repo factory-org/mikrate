@@ -5,6 +5,6 @@ extra.apply {
     set("moduleName", "mikrate.executors.api")
 }
 
-plugins {
-    kotlin("jvm")
+dependencies {
+    api(project(":dialects:dialect-api"))
 }

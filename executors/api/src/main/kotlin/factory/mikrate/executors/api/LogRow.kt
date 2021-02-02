@@ -2,4 +2,4 @@ package factory.mikrate.executors.api
 
 import java.time.Instant
 
-public data class LogRow(public val id: String, public val timestamp: Instant)
+public class LogRow(public val id: ByteArray, public val timestamp: Instant)

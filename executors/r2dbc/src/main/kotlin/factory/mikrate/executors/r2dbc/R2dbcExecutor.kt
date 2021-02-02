@@ -1,5 +1,6 @@
 package factory.mikrate.executors.r2dbc
 
+import factory.mikrate.dialects.api.AutoMigrateSqlGen
 import factory.mikrate.executors.api.LogRow
 import factory.mikrate.executors.api.MigrationExecutor
 import factory.mikrate.executors.api.MigrationResult
@@ -14,7 +15,7 @@ public class R2dbcExecutor(public val connection: Connection) : MigrationExecuto
         return MigrationResult.Success
     }
 
-    override suspend fun listAppliedMigrations(query: String): List<LogRow> {
+    override suspend fun listAppliedMigrations(dialect: AutoMigrateSqlGen): List<LogRow> {
         TODO("Not yet implemented")
     }
 

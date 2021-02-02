@@ -1,5 +1,6 @@
 package factory.mikrate.executors.jdbc
 
+import factory.mikrate.dialects.api.AutoMigrateSqlGen
 import factory.mikrate.executors.api.LogRow
 import factory.mikrate.executors.api.MigrationExecutor
 import factory.mikrate.executors.api.MigrationResult
@@ -20,7 +21,7 @@ public class JDBCExecutor(private val connectionString: String, public val conne
         return MigrationResult.Success
     }
 
-    override suspend fun listAppliedMigrations(query: String): List<LogRow> {
+    override suspend fun listAppliedMigrations(dialect: AutoMigrateSqlGen): List<LogRow> {
         TODO("Not yet implemented")
     }
 

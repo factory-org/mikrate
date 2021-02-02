@@ -1,5 +1,7 @@
 package factory.mikrate.executors.api
 
+import factory.mikrate.dialects.api.AutoMigrateSqlGen
+
 public interface MigrationExecutor : AutoCloseable {
     /**
      * Specifies whether the driver supports non-blocking execution.
@@ -14,5 +16,5 @@ public interface MigrationExecutor : AutoCloseable {
     /**
      *
      */
-    public suspend fun listAppliedMigrations(query: String): List<LogRow>
+    public suspend fun listAppliedMigrations(dialect: AutoMigrateSqlGen): List<LogRow>
 }
