@@ -9,29 +9,9 @@ variables:
   DS_DEFAULT_ANALYZERS: "gemnasium-maven"
 
 stages:
-  - build
   - test
+  - docs
   - deploy
-
-pages:
-  stage: build
-  dependencies: [ ]
-  needs:
-    - test
-    - gemnasium-maven-dependency_scanning
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
-  cache:
-    key: "${CI_COMMIT_REF_SLUG}"
-    policy: pull
-    paths:
-      - .gradle
-  script:
-    - ./gradlew :dokkaHtmlCollector
-    - mv build/dokka/htmlCollector public
-  artifacts:
-    paths:
-      - public
 
 test:
   stage: test
@@ -53,6 +33,26 @@ test:
 
 gemnasium-maven-dependency_scanning:
   allow_failure: false
+
+pages:
+  stage: docs
+  dependencies: [ ]
+  needs:
+    - test
+    - gemnasium-maven-dependency_scanning
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}"
+    policy: pull
+    paths:
+      - .gradle
+  script:
+    - ./gradlew :dokkaHtmlCollector
+    - mv build/dokka/htmlCollector public
+  artifacts:
+    paths:
+      - public
 
 deploy:
   stage: deploy
