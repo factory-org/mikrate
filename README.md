@@ -2,47 +2,29 @@
 
 Flexible migrations for Kotlin.
 
-## Projects
+## Components
 
-### [core](./core)
+### [Core](./core)
 
 Contains the core classes, the SQL generation and most other things needed to create the migrations.
 
-### [dsl](./dsl)
+### [DSL](./dsl)
 
 Provides a DSL for creating migrations.
 
-### [auto-migrate](./auto-migrate)
+### [Auto-Migrate](./auto-migrate)
 
 Provides functions to automatically apply the migrations to a database.
 
-### [executor-api](./executors/api)
+### [Executors](./executors)
 
-Provides the executor API.
+Provides various executors for various standards of connecting to the database.
+See [here](./executors/README.md#supported-executors) for a list of executors supported.
 
-### [executor-jdbc](./executors/jdbc)
+### [Dialects](./dialects)
 
-Provides an executor for JDBC.
-
-### [executor-r2dbc](./executors/r2dbc)
-
-Provides an executor for R2DBC.
-
-## Databases
-
-Legend:
-
-- ✅ = Full
-- ↗ = External / 3rd party
-- 🚧 = Partial support
-- ⭕ = Not (yet) supported
-- ⛔ = Intentionally unsupported
-
-| DBMS       | Core Support | Auto Migrate | Full JDBC Support | Full R2DBC Support | Comments |
-| ---------- | :----------: | :----------: | :---------------: | :----------------: | -------- |
-| Generic    | ✅            | ⛔            | ⛔                 | ⛔                  | Only for visualization and testing |
-| SQLite     | ✅            | ✅            | ✅                 | ⭕<br>No Driver     | No locking implemented (but should not be needed) |
-| PostgreSQL | ✅            | ✅            | ✅                 | ✅                  |          |
+Provides dialects for various databases. See [here](./dialects/README.md#supported-dialects) for a list of dialects
+supported.
 
 ## Supported Platform
 
@@ -51,5 +33,7 @@ project.
 
 ## WIP
 
+- Documentation
 - Better locking
 - Validation
+- Auto-generated migrations (with pluggable ORMs, an API safe code generation (via library) and gradle plugin)
