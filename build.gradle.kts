@@ -27,6 +27,8 @@ subprojects {
     configure<JavaPluginExtension> {
         modularity.inferModulePath.set(true)
 
+        withSourcesJar()
+
         toolchain {
             languageVersion.set(JavaLanguageVersion.of(11))
         }
