@@ -6,7 +6,7 @@ Flexible migrations for Kotlin.
 
 ### [Core](./core)
 
-Contains the core classes, the SQL generation and most other things needed to create the migrations.
+Contains the core classes and other glue to hold most things together.
 
 ### [DSL](./dsl)
 

@@ -7,4 +7,4 @@ miKrate includes pluggable executors that can be implemented according to the [A
 | Executor | Blocking |
 | -------- | :------: |
 | [JDBC](./jdbc) | ✅ |
-| [r2dbc](./r2dbc) | ⭕ |
+| [R2DBC](./r2dbc) | ⭕ |
