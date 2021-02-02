@@ -1,9 +1,29 @@
+import org.jetbrains.dokka.gradle.DokkaPlugin
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.net.URL
 
 plugins {
     kotlin("jvm") version "1.4.21" apply false
+    id("org.jetbrains.dokka") version "1.4.20"
+}
+
+repositories {
+    jcenter()
+}
+
+tasks {
+    dokkaHtmlCollector {
+        offlineMode.set(true)
+    }
+    dokkaHtmlMultiModule {
+        offlineMode.set(true)
+        doLast {
+            outputDirectory.get().resolve("-modules.html").renameTo(outputDirectory.get().resolve("index.html"))
+        }
+    }
 }
 
 subprojects {
@@ -15,6 +35,7 @@ subprojects {
 
     apply<KotlinPluginWrapper>()
     apply<MavenPublishPlugin>()
+    apply<DokkaPlugin>()
 
     group = "factory.mikrate"
 
@@ -78,6 +99,31 @@ subprojects {
             options.compilerArgs = listOf(
                 "--patch-module", "${sub.extra["moduleName"]}=$outputPath"
             )
+        }
+
+        named<DokkaTask>("dokkaHtml") {
+            offlineMode.set(true)
+            dokkaSourceSets {
+                named("main") {
+                    moduleName.set(sub.path.substring(1).replace(':', '/'))
+                    sourceLink {
+                        val dir = sub.file("src/main/kotlin")
+                        localDirectory.set(dir)
+                        val url =
+                            "https://gitlab.com/factory-org/tools/mikrate/-/tree/master/${dir.relativeTo(rootDir)}"
+                        remoteUrl.set(URL(url))
+                        remoteLineSuffix.set("#L")
+                    }
+                    externalDocumentationLink {
+                        url.set(URL("https://factory-org.gitlab.io/tools/mikrate/"))
+                    }
+                    skipEmptyPackages.set(true)
+                    jdkVersion.set(11)
+                    skipDeprecated.set(true)
+                    reportUndocumented.set(true)
+                    skipEmptyPackages.set(true)
+                }
+            }
         }
     }
 
