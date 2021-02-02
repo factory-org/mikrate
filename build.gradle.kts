@@ -17,8 +17,10 @@ repositories {
 tasks {
     dokkaHtmlCollector {
         offlineMode.set(true)
+        moduleName.set("api")
         doLast {
-            projectDir.resolve("misc/index.html").copyTo(outputDirectory.get().resolve("index.html"))
+            outputDirectory.get().resolve("mikrate").renameTo(outputDirectory.get().resolve("api"))
+            projectDir.resolve("misc/index.html").copyTo(outputDirectory.get().resolve("index.html"), overwrite = true)
         }
     }
     dokkaHtmlMultiModule {
