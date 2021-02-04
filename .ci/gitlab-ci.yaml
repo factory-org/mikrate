@@ -48,8 +48,9 @@ pages:
     paths:
       - .gradle
   script:
-    - ./gradlew :dokkaHtmlCollector
-    - mv build/dokka/htmlCollector public
+    - ./gradlew :htmlMultiModule
+    - mkdir public
+    - mv build/dokka/htmlMultiModule public/api
   artifacts:
     paths:
       - public

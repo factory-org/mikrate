@@ -1,5 +1,7 @@
 import org.jetbrains.dokka.gradle.DokkaPlugin
 import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.dokka.gradle.DokkaTaskPartial
+import org.jetbrains.dokka.gradle.GradleDokkaSourceSetBuilder
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -7,27 +9,20 @@ import java.net.URL
 
 plugins {
     kotlin("jvm") version "1.4.21" apply false
-    id("org.jetbrains.dokka") version "1.4.20"
+    id("org.jetbrains.dokka") version "1.4.20.2-dev-62"
 }
 
 repositories {
     jcenter()
+    maven("https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev")
 }
 
 tasks {
     dokkaHtmlCollector {
         offlineMode.set(true)
-        moduleName.set("api")
-        doLast {
-            outputDirectory.get().resolve("mikrate").renameTo(outputDirectory.get().resolve("api"))
-            projectDir.resolve("misc/index.html").copyTo(outputDirectory.get().resolve("index.html"), overwrite = true)
-        }
     }
     dokkaHtmlMultiModule {
         offlineMode.set(true)
-        doLast {
-            outputDirectory.get().resolve("-modules.html").renameTo(outputDirectory.get().resolve("index.html"))
-        }
     }
 }
 
@@ -66,6 +61,7 @@ subprojects {
 
     repositories {
         jcenter()
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev")
     }
 
     tasks {
@@ -106,29 +102,37 @@ subprojects {
             )
         }
 
+        val dokkaConfig: GradleDokkaSourceSetBuilder.() -> Unit = {
+            named("main") {
+                sourceLink {
+                    val dir = sub.file("src/main/kotlin")
+                    localDirectory.set(dir)
+                    val url =
+                        "https://gitlab.com/factory-org/tools/mikrate/-/tree/master/${dir.relativeTo(rootDir)}"
+                    remoteUrl.set(URL(url))
+                    remoteLineSuffix.set("#L")
+                }
+                externalDocumentationLink {
+                    url.set(URL("https://factory-org.gitlab.io/tools/mikrate/"))
+                }
+                skipEmptyPackages.set(true)
+                jdkVersion.set(11)
+                skipDeprecated.set(true)
+                reportUndocumented.set(true)
+                skipEmptyPackages.set(true)
+            }
+        }
+
         named<DokkaTask>("dokkaHtml") {
             offlineMode.set(true)
-            dokkaSourceSets {
-                named("main") {
-                    moduleName.set(sub.path.substring(1).replace(':', '/'))
-                    sourceLink {
-                        val dir = sub.file("src/main/kotlin")
-                        localDirectory.set(dir)
-                        val url =
-                            "https://gitlab.com/factory-org/tools/mikrate/-/tree/master/${dir.relativeTo(rootDir)}"
-                        remoteUrl.set(URL(url))
-                        remoteLineSuffix.set("#L")
-                    }
-                    externalDocumentationLink {
-                        url.set(URL("https://factory-org.gitlab.io/tools/mikrate/"))
-                    }
-                    skipEmptyPackages.set(true)
-                    jdkVersion.set(11)
-                    skipDeprecated.set(true)
-                    reportUndocumented.set(true)
-                    skipEmptyPackages.set(true)
-                }
-            }
+            moduleName.set(sub.path.substring(1).replace(":", "."))
+            dokkaSourceSets.named("main", dokkaConfig)
+        }
+
+        named<DokkaTaskPartial>("dokkaHtmlPartial") {
+            offlineMode.set(true)
+            moduleName.set(sub.path.substring(1).replace(":", "."))
+            dokkaSourceSets.named("main", dokkaConfig)
         }
     }
 
