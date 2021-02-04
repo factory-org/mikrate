@@ -39,7 +39,6 @@ pages:
   dependencies: [ ]
   needs:
     - test
-    - gemnasium-maven-dependency_scanning
   rules:
     - if: '$CI_COMMIT_BRANCH == "master"'
   cache:
@@ -60,7 +59,6 @@ deploy:
   dependencies: [ ]
   needs:
     - test
-    - gemnasium-maven-dependency_scanning
   cache:
     key: "${CI_COMMIT_REF_SLUG}"
     policy: pull

@@ -17,15 +17,6 @@ repositories {
     maven("https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev")
 }
 
-tasks {
-    dokkaHtmlCollector {
-        offlineMode.set(true)
-    }
-    dokkaHtmlMultiModule {
-        offlineMode.set(true)
-    }
-}
-
 subprojects {
     if (!file("src/main/kotlin").exists()) {
         return@subprojects
@@ -112,9 +103,6 @@ subprojects {
                     remoteUrl.set(URL(url))
                     remoteLineSuffix.set("#L")
                 }
-                externalDocumentationLink {
-                    url.set(URL("https://factory-org.gitlab.io/tools/mikrate/"))
-                }
                 skipEmptyPackages.set(true)
                 jdkVersion.set(11)
                 skipDeprecated.set(true)
@@ -124,14 +112,15 @@ subprojects {
         }
 
         named<DokkaTask>("dokkaHtml") {
-            offlineMode.set(true)
-            moduleName.set(sub.path.substring(1).replace(":", "."))
             dokkaSourceSets.named("main", dokkaConfig)
         }
 
         named<DokkaTaskPartial>("dokkaHtmlPartial") {
-            offlineMode.set(true)
             moduleName.set(sub.path.substring(1).replace(":", "."))
+            dokkaSourceSets.named("main", dokkaConfig)
+        }
+
+        named<DokkaTask>("dokkaJavadoc") {
             dokkaSourceSets.named("main", dokkaConfig)
         }
     }
