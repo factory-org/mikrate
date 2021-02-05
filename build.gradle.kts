@@ -40,6 +40,7 @@ subprojects {
         modularity.inferModulePath.set(true)
 
         withSourcesJar()
+        withJavadocJar()
 
         toolchain {
             languageVersion.set(JavaLanguageVersion.of(11))
@@ -51,7 +52,8 @@ subprojects {
     }
 
     repositories {
-        jcenter()
+        mavenCentral()
+        jcenter()  // TODO: Remove in the future
         maven("https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev")
     }
 
@@ -119,6 +121,14 @@ subprojects {
 
         named<DokkaTask>("dokkaJavadoc") {
             dokkaSourceSets.named("main", dokkaConfig)
+        }
+
+        named<Javadoc>("javadoc") {
+            isEnabled = false
+        }
+
+        named<Jar>("javadocJar") {
+            from(named("dokkaJavadoc").get().outputs)
         }
     }
 
