@@ -139,6 +139,8 @@ subprojects {
                     artifactId = "mikrate-${sub.extra["artifactName"]}"
                 }
 
+                from(components["java"])
+
                 pom {
                     licenses {
                         license {
