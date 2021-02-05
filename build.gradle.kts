@@ -94,21 +94,18 @@ subprojects {
         }
 
         val dokkaConfig: GradleDokkaSourceSetBuilder.() -> Unit = {
-            named("main") {
-                sourceLink {
-                    val dir = sub.file("src/main/kotlin")
-                    localDirectory.set(dir)
-                    val url =
-                        "https://gitlab.com/factory-org/tools/mikrate/-/tree/master/${dir.relativeTo(rootDir)}"
-                    remoteUrl.set(URL(url))
-                    remoteLineSuffix.set("#L")
-                }
-                skipEmptyPackages.set(true)
-                jdkVersion.set(11)
-                skipDeprecated.set(true)
-                reportUndocumented.set(true)
-                skipEmptyPackages.set(true)
+            sourceLink {
+                val dir = sub.file("src/main/kotlin")
+                localDirectory.set(dir)
+                val url =
+                    "https://gitlab.com/factory-org/tools/mikrate/-/tree/master/${dir.relativeTo(rootDir)}"
+                remoteUrl.set(URL(url))
+                remoteLineSuffix.set("#L")
             }
+            skipEmptyPackages.set(true)
+            jdkVersion.set(11)
+            skipDeprecated.set(true)
+            reportUndocumented.set(true)
         }
 
         named<DokkaTask>("dokkaHtml") {
