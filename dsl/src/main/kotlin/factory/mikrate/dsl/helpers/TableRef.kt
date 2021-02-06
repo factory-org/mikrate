@@ -1,3 +1,11 @@
 package factory.mikrate.dsl.helpers
 
-public class TableRef(public val tableName: String)
+/**
+ * Represents a reference to a table
+ */
+public class TableRef internal constructor(
+    /**
+     * @suppress
+     */
+    public val tableName: String
+)
