@@ -24,7 +24,7 @@ test:
     paths:
       - .gradle
   script:
-    - ./gradlew build
+    - ./gradlew test
   artifacts:
     reports:
       junit:
