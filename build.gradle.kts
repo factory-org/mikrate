@@ -120,7 +120,11 @@ subprojects {
         }
 
         named<DokkaTask>("dokkaJavadoc") {
-            dokkaSourceSets.named("main", dokkaConfig)
+            dokkaSourceSets.named("main") {
+                skipEmptyPackages.set(true)
+                jdkVersion.set(11)
+                skipDeprecated.set(true)
+            }
         }
 
         named<Javadoc>("javadoc") {
