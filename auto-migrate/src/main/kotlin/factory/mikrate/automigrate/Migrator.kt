@@ -2,24 +2,32 @@ package factory.mikrate.automigrate
 
 import factory.mikrate.core.Migration
 import factory.mikrate.dialects.api.AutoMigrateDialect
+import factory.mikrate.dialects.api.CoreDialect
 import factory.mikrate.executors.api.LogRow
 import factory.mikrate.executors.api.MigrationExecutor
 import java.time.Instant
 
-public class Migrator(private val executor: MigrationExecutor, private val dialect: AutoMigrateDialect) {
-    public suspend fun migrateTo(migration: Migration) {
-        val appliedMigrations = executor.listAppliedMigrations(dialect.autoMigrate)
+public class Migrator(
+    private val executor: MigrationExecutor,
+    private val autoDialect: AutoMigrateDialect,
+    private val dialect: CoreDialect
+) {
+    public suspend fun migrateTo(migration: Migration): Int {
+        executor.executeStatement(autoDialect.ensureMigrationTableCreated())
+        val appliedMigrations = executor.listAppliedMigrations(autoDialect)
         val requiredMigrations = resolveRequiredMigrations(appliedMigrations, migration)
         for (current in requiredMigrations) {
             val up = current.upStatement(dialect)
             val stmt = listOf(
-                dialect.autoMigrate.transactionStart(),
+                autoDialect.transactionStart(),
                 up,
-                dialect.autoMigrate.insertMigrationIntoLog(hashMigrationId(current.id), Instant.now()),
-                dialect.autoMigrate.transactionCommit()
+                autoDialect.insertMigrationIntoLog(hashMigrationId(current.id), Instant.now()),
+                autoDialect.transactionCommit()
             ).joinToString("\n\n")
             executor.executeStatement(stmt)
         }
+
+        return requiredMigrations.size
     }
 
     private fun resolveRequiredMigrations(appliedMigrations: List<LogRow>, rootMigration: Migration): List<Migration> {

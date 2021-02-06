@@ -11,7 +11,7 @@ import org.intellij.lang.annotations.Language
 public class ActionBuilder {
     public val actions: MutableList<MigrateAction> = mutableListOf()
 
-    public fun sql(@Language("GenericSQL") script: String) {
+    public fun sql(@Language("SQL") script: String) {
         actions.add(SqlAction(script))
     }
 

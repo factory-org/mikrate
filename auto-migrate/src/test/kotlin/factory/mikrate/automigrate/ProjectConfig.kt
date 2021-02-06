@@ -1,4 +1,4 @@
-package factory.mikrate.dsl
+package factory.mikrate.automigrate
 
 import io.kotest.core.config.AbstractProjectConfig
 

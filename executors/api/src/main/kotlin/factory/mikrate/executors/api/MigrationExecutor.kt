@@ -1,6 +1,6 @@
 package factory.mikrate.executors.api
 
-import factory.mikrate.dialects.api.AutoMigrateSqlGen
+import factory.mikrate.dialects.api.AutoMigrateDialect
 
 public interface MigrationExecutor : AutoCloseable {
     /**
@@ -16,5 +16,5 @@ public interface MigrationExecutor : AutoCloseable {
     /**
      *
      */
-    public suspend fun listAppliedMigrations(dialect: AutoMigrateSqlGen): List<LogRow>
+    public suspend fun listAppliedMigrations(dialect: AutoMigrateDialect): List<LogRow>
 }
