@@ -39,7 +39,7 @@ pages:
   dependencies: [ ]
   needs: [ ]
   rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
+    - if: '$CI_COMMIT_BRANCH == "main"'
   cache:
     key: "${CI_COMMIT_REF_SLUG}"
     policy: pull
@@ -64,6 +64,6 @@ deploy:
     paths:
       - .gradle
   rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
+    - if: '$CI_COMMIT_BRANCH == "main"'
   script:
     - ./gradlew publish
