@@ -18,7 +18,7 @@ fun createPostgresContainer(): PostgresContainer = PostgresContainer(
 class PostgresContainer(private val container: GenericContainer<*>) : Startable by container {
     fun connect(): Connection {
         return DriverManager.getConnection(
-            "jdbc:postgresql://localhost:${container.firstMappedPort}/",
+            "jdbc:postgresql://${container.host}:${container.firstMappedPort}/",
             "postgres",
             "postgres"
         )
