@@ -2,5 +2,6 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/auto-migrate/src/test/kotlin/factory/mikrate/automigrate/BasicSqliteTest.kt" dialect="SQLite" />
+    <file url="file://$PROJECT_DIR$/dialects/postgres" dialect="PostgreSQL" />
   </component>
 </project>
