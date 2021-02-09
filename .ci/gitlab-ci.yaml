@@ -16,6 +16,8 @@ stages:
 test:
   stage: test
   interruptible: true
+  services:
+    - docker:20.10-dind
   dependencies: [ ]
   needs: [ ]
   cache:
