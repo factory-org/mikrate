@@ -18,6 +18,8 @@ test:
   interruptible: true
   services:
     - docker:20.10-dind
+  variables:
+    DOCKER_HOST: "tcp://docker"
   dependencies: [ ]
   needs: [ ]
   cache:
