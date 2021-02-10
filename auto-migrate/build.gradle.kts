@@ -1,5 +1,3 @@
-version = "0.1.0-SNAPSHOT"
-
 extra.apply {
     set("artifactName", "automigrate")
     set("moduleName", "mikrate.automigrate")

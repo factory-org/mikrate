@@ -1,5 +1,3 @@
-version = "0.1.0-SNAPSHOT"
-
 extra.apply {
     set("artifactName", "executors-r2dbc")
     set("moduleName", "mikrate.executors.r2dbc")

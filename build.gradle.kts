@@ -12,6 +12,8 @@ plugins {
     id("org.jetbrains.dokka") version "1.4.20.2-dev-62"
 }
 
+val snapshotVersion = "0.1.0"
+
 repositories {
     jcenter()
     maven("https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev")
@@ -23,12 +25,18 @@ subprojects {
     }
 
     val sub = this
+    val ciTag = System.getenv("CI_COMMIT_TAG")
 
     apply<KotlinPluginWrapper>()
     apply<MavenPublishPlugin>()
     apply<DokkaPlugin>()
 
     group = "factory.mikrate"
+    version = if (ciTag.isNullOrBlank() && ciTag.startsWith("v")) {
+        ciTag.substring(1)
+    } else {
+        "$snapshotVersion-SNAPSHOT"
+    }
 
     afterEvaluate {
         configure<BasePluginConvention> {
