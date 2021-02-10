@@ -36,10 +36,12 @@ test:
         - "*/*/build/test-results/test/**/TEST-*.xml"
 
 gemnasium-maven-dependency_scanning:
+  interruptible: true
   allow_failure: false
 
 pages:
   stage: docs
+  interruptible: true
   dependencies: [ ]
   needs: [ ]
   rules:
@@ -50,7 +52,7 @@ pages:
     paths:
       - .gradle
   before_script:
-    - apk add --no-cache py3-pip gcc libc-dev
+    - apk add --no-cache py3-pip python3-dev gcc libc-dev
   script:
     - ./gradlew :dokkaHtmlMultiModule :docs:mkdocsBuild
     - mv docs/build/mkdocs public
