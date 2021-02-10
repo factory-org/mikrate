@@ -7,6 +7,7 @@ include(
     ":executors:jdbc",
     ":executors:r2dbc",
     ":auto-migrate",
+    ":docs",
     ":dialects:api",
     ":dialects:postgres",
     ":dialects:sqlite",
