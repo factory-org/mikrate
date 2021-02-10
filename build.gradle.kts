@@ -32,7 +32,7 @@ subprojects {
     apply<DokkaPlugin>()
 
     group = "factory.mikrate"
-    version = if (ciTag.isNullOrBlank() && ciTag.startsWith("v")) {
+    version = if (!ciTag.isNullOrBlank() && ciTag.startsWith("v")) {
         ciTag.substring(1)
     } else {
         "$snapshotVersion-SNAPSHOT"
