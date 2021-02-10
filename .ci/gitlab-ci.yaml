@@ -50,7 +50,7 @@ pages:
     paths:
       - .gradle
   before_script:
-    - apk add --no-cache py3-pip
+    - apk add --no-cache py3-pip gcc libc-dev
   script:
     - ./gradlew :dokkaHtmlMultiModule :docs:mkdocsBuild
     - mv docs/build/mkdocs public
