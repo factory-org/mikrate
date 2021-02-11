@@ -28,7 +28,7 @@ test:
     paths:
       - .gradle
   script:
-    - ./gradlew test
+    - ./gradlew test jacocoTestReport
   artifacts:
     reports:
       junit:
