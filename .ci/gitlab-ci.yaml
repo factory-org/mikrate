@@ -34,7 +34,7 @@ test:
       junit:
         - "*/build/test-results/test/**/TEST-*.xml"
         - "*/*/build/test-results/test/**/TEST-*.xml"
-      cobertura: dsl/build/reports/jacoco/test/jacocoTestTeport.cobertura.xml
+      cobertura: dsl/build/reports/jacoco/test/jacocoTestReport.cobertura.xml
 
 gemnasium-maven-dependency_scanning:
   interruptible: true
