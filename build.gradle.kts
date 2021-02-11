@@ -20,7 +20,7 @@ repositories {
 }
 
 subprojects {
-    if (!file("src/main/kotlin").exists()) {
+    if (!file("src/main/kotlin").exists() || name == "buildSrc") {
         return@subprojects
     }
 
