@@ -12,6 +12,7 @@ theme:
   palette:
     scheme: slate
     primary: teal
+    accent: orange
   icon:
     repo: fontawesome/brands/gitlab
   font:
@@ -19,6 +20,13 @@ theme:
 
 nav:
   - Home: index.md
+  - Guides:
+      - guides/index.md
+      - Simple:
+          - Getting Started: guides/getting-started.md
+          - R2DBC: guides/r2dbc.md
+      - Frameworks:
+          - Spring: guides/spring.md
   - API docs: /tools/mikrate/api/index.html
 
 markdown_extensions:
@@ -36,3 +44,4 @@ markdown_extensions:
 
 plugins:
   - git-revision-date-localized
+  - section-index
