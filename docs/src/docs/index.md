@@ -17,7 +17,7 @@ the [GitLab packages](https://gitlab.com/factory-org/tools/mikrate/-/packages)_
 
 !!! note A JAR distribution is currently not available
 
-!!! note miKrate is only compatible to JVM version 8 and upwards
+!!! note miKrate in its current state is only compatible to JVM version 11 and upwards
 
 To see which packages are available, you can look at
 the [GitLab packages](https://gitlab.com/factory-org/tools/mikrate/-/packages) or at the individual packages.
