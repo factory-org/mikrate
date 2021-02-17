@@ -45,14 +45,16 @@ subprojects {
     }
 
     configure<JavaPluginExtension> {
+        @Suppress("UnstableApiUsage")
         modularity.inferModulePath.set(true)
 
+        @Suppress("UnstableApiUsage")
         withSourcesJar()
+        @Suppress("UnstableApiUsage")
         withJavadocJar()
 
-        toolchain {
-            languageVersion.set(JavaLanguageVersion.of(11))
-        }
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     configure<KotlinJvmProjectExtension> {

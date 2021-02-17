@@ -20,13 +20,22 @@ theme:
 
 nav:
   - Home: index.md
+  - Features:
+      - features/index.md
+      - Executors:
+          - features/executors.md
+          - features/r2dbc.md
+      - Framework Integrations:
+          - features/frameworks.md
+          - features/spring.md
   - Guides:
       - guides/index.md
       - Simple:
-          - Getting Started: guides/getting-started.md
-          - R2DBC: guides/r2dbc.md
-      - Frameworks:
-          - Spring: guides/spring.md
+          Getting Started: guides/getting-started.md
+  - DSL:
+      - dsl/index.md
+  - Packages:
+      - packages/index.md
   - API docs: /tools/mikrate/api/index.html
 
 markdown_extensions:
