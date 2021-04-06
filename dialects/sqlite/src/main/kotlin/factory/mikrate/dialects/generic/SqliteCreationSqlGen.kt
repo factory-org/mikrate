@@ -1,6 +1,7 @@
 package factory.mikrate.dialects.generic
 
 import factory.mikrate.dialects.api.CreationSqlGen
+import factory.mikrate.dialects.api.SupportStatus
 
 public object SqliteCreationSqlGen : CreationSqlGen {
     override fun column(name: String, type: String, nullable: Boolean, unique: String?): String {
@@ -19,4 +20,11 @@ public object SqliteCreationSqlGen : CreationSqlGen {
         //language=SQLite
         return "CREATE TABLE $name (\n    $content\n);"
     }
+
+    override fun columnSupported(name: String, nullable: Boolean, unique: String?): SupportStatus =
+        SupportStatus.Supported
+
+    override fun uniqueSupported(name: String, columns: List<String>): SupportStatus = SupportStatus.Supported
+
+    override fun tableSupported(name: String, ifNotExists: Boolean): SupportStatus = SupportStatus.Supported
 }

@@ -1,13 +1,16 @@
 package factory.mikrate.dialects.postgres
 
-import factory.mikrate.dialects.api.ConstraintSqlGen
-import factory.mikrate.dialects.api.CoreDialect
-import factory.mikrate.dialects.api.CreationSqlGen
-import factory.mikrate.dialects.api.TypeSqlGen
+import factory.mikrate.dialects.api.*
 
-public object PostgresCoreDialect : CoreDialect {
+public open class PostgresCoreDialect(public val version: PostgresVersion) : CoreDialect {
     override val id: String = "postgres"
-    public override val types: TypeSqlGen = PostgresTypeSqlGen
+    public override val types: TypeSqlGen = PostgresTypeSqlGen(version)
     override val constraints: ConstraintSqlGen = PostgresConstraintSqlGen
     override val creation: CreationSqlGen = PostgresCreationSqlGen
+    override val alter: AlterSqlGen = PostgresAlterSqlGen(version)
+
+    public companion object : PostgresCoreDialect(PostgresVersion.Unknown) {
+        public val v13: PostgresCoreDialect
+            get() = PostgresCoreDialect(PostgresVersion.V13)
+    }
 }

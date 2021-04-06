@@ -8,4 +8,5 @@ public interface CoreDialect {
     public val types: TypeSqlGen
     public val constraints: ConstraintSqlGen
     public val creation: CreationSqlGen
+    public val alter: AlterSqlGen
 }

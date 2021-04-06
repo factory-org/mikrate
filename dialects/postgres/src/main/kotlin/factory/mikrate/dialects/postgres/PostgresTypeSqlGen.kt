@@ -4,7 +4,7 @@ import factory.mikrate.dialects.api.NotAvailableError
 import factory.mikrate.dialects.api.TypeNotAvailableError
 import factory.mikrate.dialects.api.TypeSqlGen
 
-public object PostgresTypeSqlGen : TypeSqlGen {
+public class PostgresTypeSqlGen(protected val version: PostgresVersion) : TypeSqlGen {
     override fun boolean(): String = "boolean"
 
     override fun supportsBoolean(): Boolean = true

@@ -1,7 +1,9 @@
 package factory.mikrate.dsl.contexts
 
 import factory.mikrate.core.MigrateAction
+import factory.mikrate.core.actions.RenameColumnAction
 import factory.mikrate.dsl.MigrationDsl
+import factory.mikrate.dsl.helpers.ColumnRef
 
 /**
  * Enables easy access to multiple operations in the context of a specific table.
@@ -21,4 +23,23 @@ public class TableContext(
      * @see MigrateAction
      */
     public val actions: MutableList<MigrateAction> = mutableListOf()
+
+    /**
+     * Creates a reference to a column.
+     */
+    public fun column(name: String): ColumnRef = ColumnRef(tableName, name)
+
+    /**
+     * Renames a column.
+     */
+    public fun renameColumn(column: String, to: String) {
+        actions.add(RenameColumnAction(tableName, column, to))
+    }
+
+    /**
+     * Renames a column.
+     */
+    public fun ColumnRef.renameTo(to: String) {
+        actions.add(RenameColumnAction(table, column, to))
+    }
 }
