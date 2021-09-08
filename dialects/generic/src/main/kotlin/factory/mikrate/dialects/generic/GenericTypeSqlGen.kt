@@ -1,37 +1,18 @@
 package factory.mikrate.dialects.generic
 
 import factory.mikrate.dialects.api.TypeSqlGen
+import factory.mikrate.dialects.api.models.DialectDbType
 
 public object GenericTypeSqlGen : TypeSqlGen {
-    override fun boolean(): String = "BOOLEAN"
+    override fun supportsType(dbType: DialectDbType): Boolean = true
 
-    override fun supportsBoolean(): Boolean = true
-
-    override fun byte(): String = "BYTE"
-
-    override fun supportsByte(): Boolean = true
-
-    override fun integer(size: Short): String = "INTEGER($size)"
-
-    override fun supportsInteger(size: Short): Boolean = true
-
-    override fun long(): String = "LONG"
-
-    override fun supportsLong(): Boolean = true
-
-    override fun short(): String = "SHORT"
-
-    override fun supportsShort(): Boolean = true
-
-    override fun text(): String = "TEXT"
-
-    override fun supportsText(): Boolean = true
-
-    override fun uuid(): String = "UUID"
-
-    override fun supportsUUID(): Boolean = true
-
-    override fun varchar(length: Int): String = "VARCHAR($length)"
-
-    override fun supportsVarchar(length: Int): Boolean = true
+    internal fun mapType(dbType: DialectDbType): String = when (dbType) {
+        DialectDbType.BooleanType -> "BOOLEAN"
+        DialectDbType.ByteType -> "BYTE"
+        is DialectDbType.IntegerType -> "INTEGER(size = ${dbType.size})"
+        DialectDbType.TextType -> "TEXT"
+        is DialectDbType.VarcharType -> "VARCHAR(length = ${dbType.length})"
+        DialectDbType.UuidType -> "UUID"
+        is DialectDbType.Other -> "OTHER(type = `$dbType`)"
+    }
 }

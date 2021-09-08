@@ -1,9 +1,3 @@
-import org.gradle.api.Project
-import org.w3c.dom.Element
-import org.w3c.dom.NamedNodeMap
-import org.w3c.dom.Node
-import org.w3c.dom.NodeList
-import org.xml.sax.InputSource
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.nio.file.Path
@@ -12,6 +6,12 @@ import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
+import org.gradle.api.Project
+import org.w3c.dom.Element
+import org.w3c.dom.NamedNodeMap
+import org.w3c.dom.Node
+import org.w3c.dom.NodeList
+import org.xml.sax.InputSource
 
 
 fun Project.jacocoToCobertura(file: File, sourceRoots: Set<File>, outputFile: File, sourceToFilename: Boolean = false) {
@@ -165,7 +165,7 @@ private fun sum(covered: Double, missed: Double) = covered + missed
 private fun methodLines(oldMethod: Element, oldMethods: List<Element>, oldLines: List<Element>) = sequence {
     val startLine = oldMethod.getAttribute("line")?.toInt() ?: 0
     val larger = oldMethods.filter { lineIsAfter(it, startLine) }.map { it.getAttribute("line")?.toInt() ?: 0 }
-    val endLine = larger.min() ?: Int.MAX_VALUE
+    val endLine = larger.minOrNull() ?: Int.MAX_VALUE
 
     for (oldLine in oldLines) {
         if (oldLine.getAttribute("nr").toInt() in startLine until endLine) {
@@ -174,7 +174,7 @@ private fun methodLines(oldMethod: Element, oldMethods: List<Element>, oldLines:
     }
 }
 
-private fun lineIsAfter(oldMethod: Element, startLine: Int) = oldMethod.getAttribute("line")?.toInt() ?: 0 > startLine
+private fun lineIsAfter(oldMethod: Element, startLine: Int) = (oldMethod.getAttribute("line")?.toInt() ?: 0) > startLine
 
 private fun findLines(oldPkg: Element, filename: String): List<Element> {
     val lines = mutableListOf<Element>()

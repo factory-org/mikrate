@@ -1,10 +1,8 @@
 package factory.mikrate.core.types
 
 import factory.mikrate.core.DbType
-import factory.mikrate.dialects.api.TypeSqlGen
+import factory.mikrate.dialects.api.models.DialectDbType
 
-public class LongType : DbType {
-    override fun supports(dialect: TypeSqlGen): Boolean = dialect.supportsLong()
-
-    override fun toSql(dialect: TypeSqlGen): String = dialect.long()
+public class LongType : DbType() {
+    override val dialectDbType: DialectDbType = DialectDbType.IntegerType(8)
 }

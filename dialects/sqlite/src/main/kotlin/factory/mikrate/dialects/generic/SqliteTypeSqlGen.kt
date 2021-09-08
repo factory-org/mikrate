@@ -1,30 +1,28 @@
 package factory.mikrate.dialects.generic
 
 import factory.mikrate.dialects.api.TypeSqlGen
+import factory.mikrate.dialects.api.models.DialectDbType
 
 public object SqliteTypeSqlGen : TypeSqlGen {
-    override fun boolean(): String = "NUMERIC"
+    override fun supportsType(dbType: DialectDbType): Boolean = when (dbType) {
+        is DialectDbType.IntegerType -> supportedIntegerSizes.contains(dbType.size)
+        DialectDbType.BooleanType,
+        DialectDbType.ByteType,
+        DialectDbType.TextType,
+        DialectDbType.UuidType,
+        is DialectDbType.VarcharType -> true
+        is DialectDbType.Other -> false
+    }
 
-    override fun supportsBoolean(): Boolean = true
+    internal fun mapType(dbType: DialectDbType): String = when (dbType) {
+        DialectDbType.BooleanType -> "NUMERIC"
+        DialectDbType.ByteType,
+        is DialectDbType.IntegerType -> "INTEGER"
+        DialectDbType.TextType,
+        is DialectDbType.VarcharType -> "Text"
+        DialectDbType.UuidType -> "BLOB"
+        is DialectDbType.Other -> throw IllegalArgumentException("Other type is not supported")
+    }
 
-    override fun byte(): String = "INTEGER"
-
-    override fun supportsByte(): Boolean = true
-
-    override fun integer(size: Short): String = "INTEGER"
-
-    override fun supportsInteger(size: Short): Boolean = listOf<Short>(1, 2, 3, 4, 6, 8).contains(size)
-
-    override fun text(): String = "TEXT"
-
-    override fun supportsText(): Boolean = true
-
-    override fun uuid(): String = "BLOB"
-
-    override fun supportsUUID(): Boolean = true
-
-    override fun varchar(length: Int): String = "TEXT"
-
-    override fun supportsVarchar(length: Int): Boolean = true
-
+    private val supportedIntegerSizes = setOf<Short>(1, 2, 3, 4, 6, 8)
 }

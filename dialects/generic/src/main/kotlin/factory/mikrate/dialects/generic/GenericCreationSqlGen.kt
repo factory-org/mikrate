@@ -2,29 +2,57 @@ package factory.mikrate.dialects.generic
 
 import factory.mikrate.dialects.api.CreationSqlGen
 import factory.mikrate.dialects.api.SupportStatus
+import factory.mikrate.dialects.api.models.NewTable
+import factory.mikrate.dialects.generic.GenericTypeSqlGen.mapType
 
 public object GenericCreationSqlGen : CreationSqlGen {
-    override fun column(name: String, type: String, nullable: Boolean, unique: String?): String {
-        var col = "$name $type"
-        if (!nullable) {
+    private fun generateColumn(
+        name: String,
+        column: NewTable.Column
+    ): String {
+        var col = "$name ${mapType(column.type)}"
+        if (!column.nullable) {
             col += " NOT NULL"
         }
-        if (unique != null) {
-            col += " constraint $unique unique"
+        if (column.unique != null) {
+            col += " CONSTRAINT ${column.unique} UNIQUE"
+        }
+        val foreign = column.foreign
+        if (foreign != null) {
+            col += " CONSTRAINT ${foreign.constraintName}" +
+                " FOREIGN KEY REFERENCES ${foreign.foreignTable}(${foreign.foreignColumn})"
         }
         return col
     }
 
-    override fun table(name: String, ifNotExists: Boolean, columns: List<String>, constraints: List<String>): String {
-        val content = (columns + constraints).joinToString(",\n    ")
-        //language=GenericSQL
-        return "CREATE TABLE $name (\n    $content\n);"
+    private fun generateConstraint(name: String, constraint: NewTable.Constraint): String = when (constraint) {
+        is NewTable.Constraint.UniqueConstraint -> {
+            "CONSTRAINT $name UNIQUE (${constraint.columns.joinToString()})"
+        }
+        is NewTable.Constraint.ForeignKey -> {
+            val localColumns = constraint.columnMapping.keys.joinToString()
+            val foreignColumns = constraint.columnMapping.values.joinToString()
+            "CONSTRAINT $name FOREIGN KEY ($localColumns) REFERENCES ($foreignColumns)"
+        }
     }
 
-    override fun columnSupported(name: String, nullable: Boolean, unique: String?): SupportStatus =
+    public override fun table(newTable: NewTable): String {
+        val columns = newTable.columns.map { generateColumn(it.key, it.value) }
+        val constraints = newTable.constraints.map { generateConstraint(it.key, it.value) }
+        val content = (columns + constraints).joinToString(",\n    ")
+        //language=GenericSQL
+        return "CREATE TABLE ${newTable.name} (\n    $content\n);"
+    }
+
+    // TODO: Implement
+    override fun tableSupported(newTable: NewTable): SupportStatus {
+        return SupportStatus.Supported
+    }
+
+    private fun columnSupported(name: String, nullable: Boolean, unique: String?): SupportStatus =
         SupportStatus.Supported
 
-    override fun uniqueSupported(name: String, columns: List<String>): SupportStatus = SupportStatus.Supported
+    private fun uniqueSupported(name: String, columns: List<String>): SupportStatus = SupportStatus.Supported
 
-    override fun tableSupported(name: String, ifNotExists: Boolean): SupportStatus = SupportStatus.Supported
+    private fun tableSupported(name: String, ifNotExists: Boolean): SupportStatus = SupportStatus.Supported
 }

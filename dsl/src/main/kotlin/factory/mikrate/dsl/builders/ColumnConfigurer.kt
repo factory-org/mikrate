@@ -1,6 +1,7 @@
 package factory.mikrate.dsl.builders
 
 import factory.mikrate.dsl.MigrationDsl
+import factory.mikrate.dsl.helpers.ColumnRef
 
 /**
  * Configuration of new columns.
@@ -11,43 +12,76 @@ import factory.mikrate.dsl.MigrationDsl
 public class ColumnConfigurer(tableName: String, columnName: String) {
     private var unique = false
     private var uniqueName = "uix_${tableName}_$columnName"
+    private var foreignKeyRef: ColumnRef? = null
+    private var foreignKeyName: String? = null
     private var primary = false
     private var nullable = false
 
     /**
      * Marks the column as part of the primary key.
-     *
-     * @param value pass `false` to invert behavior
      */
-    public fun primary(value: Boolean = true) {
-        primary = value
+    public fun primary() {
+        primary = true
+    }
+
+    /**
+     * Marks the column not as part of the primary key.
+     */
+    public fun notPrimary() {
+        primary = false
     }
 
     /**
      * Marks the column as nullable
-     *
-     * @param value pass `false` to invert behavior
      */
-    public fun nullable(value: Boolean = true) {
-        nullable = value
+    public fun nullable() {
+        nullable = true
     }
 
     /**
-     * Marks a column as unique.
+     * Marks the column as non-nullable
+     */
+    public fun nonNullable() {
+        nullable = false
+    }
+
+    /**
+     * Marks the column as unique.
      *
      * @param name sets the name of the unique constraint (default: `uix_<tableName>_<columnName>`)
-     * @param value pass `false` to invert behavior
      */
-    public fun unique(name: String = uniqueName, value: Boolean = true) {
-        unique = value
+    public fun unique(name: String = uniqueName) {
+        unique = true
         uniqueName = name
+    }
+
+    /**
+     * Marks the column as not unique.
+     */
+    public fun notUnique() {
+        unique = false
+    }
+
+    /**
+     * Marks the column as foreign key.
+     */
+    public fun referencesForeign(columnRef: ColumnRef, name: String? = null) {
+        foreignKeyRef = columnRef
+        foreignKeyName = name
+    }
+
+    /**
+     * Marks the column as not a foreign key.
+     */
+    public fun noForeignReference() {
+        foreignKeyRef = null
     }
 
     /**
      * @suppress
      */
     public fun config(): ColumnConfig {
-        return ColumnConfig(primary, nullable, unique, uniqueName)
+        return ColumnConfig(primary, nullable, unique, uniqueName, foreignKeyRef, foreignKeyName)
     }
 
     /**
@@ -69,6 +103,14 @@ public class ColumnConfigurer(tableName: String, columnName: String) {
         /**
          * The name of the unique constraint, if applicable.
          */
-        val uniqueName: String
+        val uniqueName: String,
+        /**
+         * Reference to the foreign column.
+         */
+        val foreignKeyRef: ColumnRef?,
+        /**
+         * Name of the foreign key constraint.
+         */
+        val foreignKeyName: String?
     )
 }

@@ -1,3 +1,4 @@
+import java.net.URL
 import org.jetbrains.dokka.gradle.DokkaPlugin
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
@@ -5,17 +6,16 @@ import org.jetbrains.dokka.gradle.GradleDokkaSourceSetBuilder
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.net.URL
 
 plugins {
-    kotlin("jvm") version "1.4.21" apply false
-    id("org.jetbrains.dokka") version "1.4.20.2-dev-62"
+    kotlin("jvm") version "1.5.30" apply false
+    id("org.jetbrains.dokka") version "1.5.0"
 }
 
 val snapshotVersion = "0.1.1"
 
 repositories {
-    jcenter()
+    mavenCentral()
     maven("https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev")
 }
 
@@ -39,8 +39,8 @@ subprojects {
     }
 
     afterEvaluate {
-        configure<BasePluginConvention> {
-            archivesBaseName = "mikrate-${sub.extra["artifactName"]}"
+        configure<BasePluginExtension> {
+            archivesName.set("mikrate-${sub.extra["artifactName"]}")
         }
     }
 
@@ -63,7 +63,6 @@ subprojects {
 
     repositories {
         mavenCentral()
-        jcenter()  // TODO: Remove in the future
         maven("https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev")
     }
 
