@@ -12,7 +12,7 @@ plugins {
     id("org.jetbrains.dokka") version "1.5.0"
 }
 
-val snapshotVersion = "0.1.1"
+val snapshotVersion = "0.1.2"
 
 repositories {
     mavenCentral()
