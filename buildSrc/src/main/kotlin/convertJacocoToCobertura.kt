@@ -165,7 +165,9 @@ private fun sum(covered: Double, missed: Double) = covered + missed
 private fun methodLines(oldMethod: Element, oldMethods: List<Element>, oldLines: List<Element>) = sequence {
     val startLine = oldMethod.getAttribute("line")?.toInt() ?: 0
     val larger = oldMethods.filter { lineIsAfter(it, startLine) }.map { it.getAttribute("line")?.toInt() ?: 0 }
-    val endLine = larger.minOrNull() ?: Int.MAX_VALUE
+    // Gemnasium doesn't like it: https://gitlab.com/gitlab-org/gitlab/-/issues/340463
+    @Suppress("DEPRECATION")
+    val endLine = larger.min() ?: Int.MAX_VALUE
 
     for (oldLine in oldLines) {
         if (oldLine.getAttribute("nr").toInt() in startLine until endLine) {
