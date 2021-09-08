@@ -1,3 +1,4 @@
+import com.gemnasium.GemnasiumGradlePlugin
 import java.net.URL
 import org.jetbrains.dokka.gradle.DokkaPlugin
 import org.jetbrains.dokka.gradle.DokkaTask
@@ -10,9 +11,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.5.30" apply false
     id("org.jetbrains.dokka") version "1.5.0"
+    id("com.gemnasium.gradle-plugin") version "0.3.4"
 }
 
-val snapshotVersion = "0.1.2"
+val snapshotVersion = "0.1.1"
 
 repositories {
     mavenCentral()
@@ -30,6 +32,7 @@ subprojects {
     apply<KotlinPluginWrapper>()
     apply<MavenPublishPlugin>()
     apply<DokkaPlugin>()
+    apply<GemnasiumGradlePlugin>()
 
     group = "factory.mikrate"
     version = if (!ciTag.isNullOrBlank() && ciTag.startsWith("v")) {
@@ -45,12 +48,9 @@ subprojects {
     }
 
     configure<JavaPluginExtension> {
-        @Suppress("UnstableApiUsage")
         modularity.inferModulePath.set(true)
 
-        @Suppress("UnstableApiUsage")
         withSourcesJar()
-        @Suppress("UnstableApiUsage")
         withJavadocJar()
 
         sourceCompatibility = JavaVersion.VERSION_11
