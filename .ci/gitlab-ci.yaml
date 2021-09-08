@@ -66,6 +66,7 @@ deploy:
   stage: deploy
   dependencies: [ ]
   needs:
+    - gemnasium-maven-dependency_scanning
     - test
   cache:
     key: "${CI_COMMIT_REF_SLUG}"
