@@ -37,6 +37,8 @@ test:
       cobertura: dsl/build/reports/jacoco/test/jacocoTestReport.cobertura.xml
 
 gemnasium-maven-dependency_scanning:
+  variables:
+    SECURE_LOG_LEVEL: "debug"
   interruptible: true
   allow_failure: false
 
