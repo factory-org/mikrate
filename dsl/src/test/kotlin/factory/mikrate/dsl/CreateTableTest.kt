@@ -4,7 +4,6 @@ import factory.mikrate.core.types.BooleanType
 import factory.mikrate.core.types.VarcharType
 import factory.mikrate.dialects.generic.GenericCoreDialect
 import factory.mikrate.dsl.helpers.ColumnRef
-import factory.mikrate.dsl.helpers.TableRef
 import factory.mikrate.dsl.matching.shouldMatchSqlString
 import io.kotest.core.spec.style.ShouldSpec
 
@@ -28,7 +27,7 @@ class CreateTableTest : ShouldSpec({
         mig.upStatement(GenericCoreDialect) shouldMatchSqlString """
             CREATE TABLE TestTable (
                 testA VARCHAR(length = 64) CONSTRAINT uix_TestTable_testA UNIQUE,
-                testB VARCHAR(length = 64) NOT NULL CONSTRAINT fk_TestTable_testB_ForeignTable_foreignColumn FOREIGN KEY REFERENCES ForeignTable(ForeignTable)
+                testB VARCHAR(length = 64) NOT NULL CONSTRAINT fk_TestTable_testB_ForeignTable_foreignColumn FOREIGN KEY REFERENCES ForeignTable(foreignColumn)
             );
         """.trimIndent()
     }
@@ -52,13 +51,12 @@ class CreateTableTest : ShouldSpec({
         """.trimIndent()
     }
     should("create a foreign keys") {
-        val foreignTable = TableRef("ForeignTable")
         val mig = migration("test") {
             up {
                 createTable("testTable") {
                     val a = column("testA", VarcharType(64))
                     val b = column("testB", BooleanType)
-                    foreignKeys(foreignTable, a.column to "foreignColumn1", b.column to "foreignColumn1")
+                    foreignKeys("ForeignTable", a.column to "foreignColumn1", b.column to "foreignColumn1")
                 }
             }
         }
