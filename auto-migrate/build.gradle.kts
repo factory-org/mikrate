@@ -11,7 +11,7 @@ dependencies {
     testImplementation(project(":dialects:sqlite"))
     testImplementation(project(":executors:jdbc"))
     testImplementation(project(":dsl"))
-    testImplementation("org.xerial:sqlite-jdbc:3.34.0")
-    testImplementation("io.kotest:kotest-runner-junit5:4.3.2")
-    testImplementation("io.kotest:kotest-assertions-core:4.3.2")
+    testImplementation("org.xerial:sqlite-jdbc:3.36.0.2")
+    testImplementation("io.kotest:kotest-runner-junit5:4.6.1")
+    testImplementation("io.kotest:kotest-assertions-core:4.6.1")
 }

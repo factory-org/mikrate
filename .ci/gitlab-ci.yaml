@@ -48,7 +48,7 @@ pages:
   dependencies: [ ]
   needs: [ ]
   rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
   cache:
     key: "${CI_COMMIT_REF_SLUG}"
     policy: pull
