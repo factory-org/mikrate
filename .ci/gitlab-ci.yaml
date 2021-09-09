@@ -55,7 +55,7 @@ pages-test:
     paths:
       - .gradle
   before_script:
-    - apk add --no-cache py3-pip python3-dev gcc libc-dev git
+    - apk add --no-cache py3-pip python3-dev gcc libc-dev git file
   script:
     - ./gradlew :dokkaHtmlMultiModule :docs:mkdocsBuild
     - file docs/build/mkdocs | grep directory
