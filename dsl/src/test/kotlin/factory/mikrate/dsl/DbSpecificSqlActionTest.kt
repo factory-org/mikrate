@@ -1,7 +1,7 @@
 package factory.mikrate.dsl
 
-import factory.mikrate.dialects.generic.SqliteCoreDialect
 import factory.mikrate.dialects.postgres.PostgresCoreDialect
+import factory.mikrate.dialects.sqlite.SqliteCoreDialect
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.core.test.AssertionMode
 import io.kotest.matchers.string.shouldContain

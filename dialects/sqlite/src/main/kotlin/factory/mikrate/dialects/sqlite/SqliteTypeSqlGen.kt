@@ -1,4 +1,4 @@
-package factory.mikrate.dialects.generic
+package factory.mikrate.dialects.sqlite
 
 import factory.mikrate.dialects.api.TypeSqlGen
 import factory.mikrate.dialects.api.models.DialectDbType

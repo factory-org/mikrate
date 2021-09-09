@@ -1,4 +1,4 @@
-package factory.mikrate.dialects.generic.auto
+package factory.mikrate.dialects.sqlite.auto
 
 import factory.mikrate.dialects.api.AutoMigrateDialect
 import java.time.Instant

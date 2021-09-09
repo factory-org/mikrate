@@ -60,7 +60,7 @@ public class CreateTableBuilder(
             NewTable.Column.ForeignColumnConfig(
                 constraintName,
                 config.foreignKeyRef.table,
-                config.foreignKeyRef.table
+                config.foreignKeyRef.column
             )
         }
         columns[name] = NewTable.Column(type.dialectDbType, config.nullable, unique, foreign)
@@ -120,9 +120,9 @@ public class CreateTableBuilder(
      * @param name Name of the constraint
      * @param columnMapping Mapping which local columns are mapped to which columns on the foreign table
      */
-    public fun foreignKeys(name: String, foreignTable: TableRef, vararg columnMapping: Pair<String, String>) {
+    public fun foreignKeys(name: String, foreignTable: String, vararg columnMapping: Pair<String, String>) {
         require(columnMapping.isNotEmpty()) { "Column mapping may not be empty" }
-        constraints[name] = NewTable.Constraint.ForeignKey(foreignTable.tableName, columnMapping.toMap())
+        constraints[name] = NewTable.Constraint.ForeignKey(foreignTable, columnMapping.toMap())
     }
 
     /**
@@ -133,10 +133,44 @@ public class CreateTableBuilder(
      *
      * @param columnMapping Mapping which local columns are mapped to which columns on the foreign table
      */
-    public fun foreignKeys(foreignTable: TableRef, vararg columnMapping: Pair<String, String>) {
+    public fun foreignKeys(foreignTable: String, vararg columnMapping: Pair<String, String>) {
         require(columnMapping.isNotEmpty()) { "Column mapping may not be empty" }
         val localColumns = columnMapping.joinToString("_") { it.first }
         val foreignColumns = columnMapping.joinToString("_") { it.second }
+        val name = "uix_${tableName}_${localColumns}_${foreignTable}_${foreignColumns}"
+        foreignKeys(name, foreignTable, columnMapping = columnMapping)
+    }
+
+    /**
+     * Defines a new foreign key constraint with custom name on the table.
+     *
+     * @param name Name of the constraint
+     * @param columnMapping Mapping which local columns are mapped to which columns on the foreign table
+     */
+    public fun foreignKeys(name: String, foreignTable: TableRef, vararg columnMapping: Pair<ColumnRef, ColumnRef>) {
+        require(columnMapping.isNotEmpty()) { "Column mapping may not be empty" }
+        require(columnMapping.all { it.first.table == tableName }) { "Local columns have to be on local table" }
+        require(columnMapping.all { it.second.table == foreignTable.tableName }) {
+            "Foreign columns have to be on foreign table"
+        }
+        constraints[name] = NewTable.Constraint.ForeignKey(
+            foreignTable.tableName,
+            columnMapping.associate { Pair(it.first.column, it.second.column) }
+        )
+    }
+
+    /**
+     * Defines a new foreign key constraint with automatic name on the table.
+     *
+     * The name will be generated with the following schema:
+     * `fk_<table name>_<column 1 name>_..._<column n name>_<foreign table name>_<foreign column 1 name>_..._<foreign column n name>`
+     *
+     * @param columnMapping Mapping which local columns are mapped to which columns on the foreign table
+     */
+    public fun foreignKeys(foreignTable: TableRef, vararg columnMapping: Pair<ColumnRef, ColumnRef>) {
+        require(columnMapping.isNotEmpty()) { "Column mapping may not be empty" }
+        val localColumns = columnMapping.joinToString("_") { it.first.column }
+        val foreignColumns = columnMapping.joinToString("_") { it.second.column }
         val name = "uix_${tableName}_${localColumns}_${foreignTable.tableName}_${foreignColumns}"
         foreignKeys(name, foreignTable, columnMapping = columnMapping)
     }

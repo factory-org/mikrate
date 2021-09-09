@@ -16,29 +16,36 @@ public class PostgresCreationSqlGen(protected val typeGen: PostgresTypeSqlGen) :
         if (column.unique != null) {
             col += " constraint ${column.unique} unique"
         }
-        val foreign = column.foreign
-        if (foreign != null) {
-            col += " constraint ${foreign.constraintName}" +
-                " foreign key references ${foreign.foreignTable}(${foreign.foreignColumn})"
-        }
         return col
+    }
+
+    private fun generateForeignKeyConstraint(name: String, foreignTable: String, columnMapping: Map<String, String>): String {
+        val localColumns = columnMapping.keys.joinToString()
+        val foreignColumns = columnMapping.values.joinToString()
+        return "constraint $name foreign key ($localColumns) references $foreignTable ($foreignColumns)"
     }
 
     private fun generateConstraint(name: String, constraint: NewTable.Constraint): String = when (constraint) {
         is NewTable.Constraint.UniqueConstraint -> {
             "constraint $name unique (${constraint.columns.joinToString()})"
         }
-        is NewTable.Constraint.ForeignKey -> {
-            val localColumns = constraint.columnMapping.keys.joinToString()
-            val foreignColumns = constraint.columnMapping.values.joinToString()
-            "constraint $name foreign key ($localColumns) references ($foreignColumns)"
-        }
+        is NewTable.Constraint.ForeignKey -> generateForeignKeyConstraint(
+            name,
+            constraint.foreignTable,
+            constraint.columnMapping
+        )
     }
 
     public override fun table(newTable: NewTable): String {
         val columns = newTable.columns.map { generateColumn(it.key, it.value) }
+        val foreignConstraints = newTable.columns
+            .mapNotNull {
+                val (name, column) = it
+                val foreign = column.foreign ?: return@mapNotNull null
+                generateForeignKeyConstraint(foreign.constraintName, foreign.foreignTable, mapOf(name to foreign.foreignColumn))
+            }
         val constraints = newTable.constraints.map { generateConstraint(it.key, it.value) }
-        val content = (columns + constraints).joinToString(",\n    ")
+        val content = (columns + foreignConstraints + constraints).joinToString(",\n    ")
         //language=PostgreSQL
         return "create table ${newTable.name} (\n    $content\n);"
     }

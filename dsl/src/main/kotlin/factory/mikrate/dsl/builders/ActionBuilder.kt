@@ -50,10 +50,11 @@ public class ActionBuilder {
      * @see factory.mikrate.core.actions.CreateTableAction
      * @see CreateTableBuilder
      */
-    public fun createTable(name: String, block: CreateTableBuilder.() -> Unit) {
+    public fun createTable(name: String, block: CreateTableBuilder.() -> Unit): TableRef {
         val builder = CreateTableBuilder(name)
         block(builder)
         actions.add(builder.build())
+        return TableRef(name)
     }
 
     /**

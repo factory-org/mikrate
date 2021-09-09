@@ -1,6 +1,10 @@
-package factory.mikrate.dialects.generic
+package factory.mikrate.dialects.sqlite
 
-import factory.mikrate.dialects.api.*
+import factory.mikrate.dialects.api.AlterSqlGen
+import factory.mikrate.dialects.api.ConstraintSqlGen
+import factory.mikrate.dialects.api.CoreDialect
+import factory.mikrate.dialects.api.CreationSqlGen
+import factory.mikrate.dialects.api.TypeSqlGen
 
 public object SqliteCoreDialect : CoreDialect {
     override val id: String = "sqlite"

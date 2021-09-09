@@ -1,8 +1,8 @@
 package factory.mikrate.automigrate
 
 import factory.mikrate.core.types.IntegerType
-import factory.mikrate.dialects.generic.SqliteCoreDialect
-import factory.mikrate.dialects.generic.auto.SqliteAutoDialect
+import factory.mikrate.dialects.sqlite.SqliteCoreDialect
+import factory.mikrate.dialects.sqlite.auto.SqliteAutoDialect
 import factory.mikrate.dsl.migration
 import factory.mikrate.executors.jdbc.JDBCExecutor
 import io.kotest.core.spec.style.ShouldSpec
