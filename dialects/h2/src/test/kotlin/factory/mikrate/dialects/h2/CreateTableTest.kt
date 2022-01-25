@@ -56,7 +56,8 @@ class CreateTableTest : ShouldSpec({
 
             // Run against DB
             conn.createStatement().use {
-                it.executeUpdate(createTable.upStatement(H2CoreDialect))
+                val sql = createTable.upStatement(H2CoreDialect)
+                it.executeUpdate(sql)
             }
 
             // Insert one value
