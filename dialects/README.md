@@ -12,8 +12,9 @@ Legend:
 - ⭕ = Not (yet) supported
 - ⛔ = Intentionally unsupported
 
-| DBMS | Core Support | Auto Migrate | Full JDBC Support | Full R2DBC Support | Comments |
-| ---- | :----------: | :----------: | :---------------: | :----------------: | -------- |
-| [Generic](./generic)     | ✅ | ⛔ | ⛔ | ⛔ | Only for visualization and testing |
-| [SQLite](./sqlite)       | ✅ | ✅ | ✅ | ⭕<br>No Driver | No locking implemented (but should not be needed) |
-| [PostgreSQL](./postgres) | ✅ | ✅ | ✅ | ✅ | |
+| DBMS                     | Core Support | Auto Migrate | Full JDBC Support | Full R2DBC Support | Comments                                          |
+|--------------------------|:------------:|:------------:|:-----------------:|:------------------:|---------------------------------------------------|
+| [Generic](./generic)     |      ✅       |      ⛔       |         ⛔         |         ⛔          | Only for visualization and testing                |
+| [SQLite](./sqlite)       |      ✅       |      ✅       |         ✅         |   ⭕<br>No Driver   | No locking implemented (but should not be needed) |
+| [PostgreSQL](./postgres) |      ✅       |      ✅       |         ✅         |         ✅          |                                                   |
+| [H2](./h2)               |      ✅       |      ✅       |         ✅         |         ✅          |                                                   |

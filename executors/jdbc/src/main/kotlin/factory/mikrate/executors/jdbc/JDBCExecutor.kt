@@ -6,7 +6,8 @@ import factory.mikrate.executors.api.MigrationExecutor
 import factory.mikrate.executors.api.MigrationResult
 import java.sql.Connection
 import java.sql.DriverManager
-import java.util.*
+import java.sql.SQLException
+import java.util.Properties
 
 public class JDBCExecutor(private val connection: Connection) :
     MigrationExecutor {
@@ -21,7 +22,13 @@ public class JDBCExecutor(private val connection: Connection) :
     override suspend fun executeStatement(sql: String): MigrationResult {
         val statement = connection.createStatement()
         statement.use {
-            statement.executeUpdate(sql)
+            try {
+                statement.executeUpdate(sql)
+            } catch (e: SQLException) {
+                connection.rollback()
+                throw e
+            }
+            connection.commit()
         }
         return MigrationResult.Success
     }

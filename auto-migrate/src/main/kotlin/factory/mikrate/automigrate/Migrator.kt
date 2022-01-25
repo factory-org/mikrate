@@ -19,10 +19,10 @@ public class Migrator(
         for (current in requiredMigrations) {
             val up = current.upStatement(dialect)
             val stmt = listOf(
-                autoDialect.transactionStart(),
+                autoDialect.transactionPre(),
                 up,
                 autoDialect.insertMigrationIntoLog(hashMigrationId(current.id), Instant.now()),
-                autoDialect.transactionCommit()
+                autoDialect.transactionPost()
             ).joinToString("\n\n")
             executor.executeStatement(stmt)
         }

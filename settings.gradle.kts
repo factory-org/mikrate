@@ -11,6 +11,7 @@ include(
     ":dialects:api",
     ":dialects:postgres",
     ":dialects:sqlite",
+    ":dialects:h2",
     ":dialects:generic"
 )
 

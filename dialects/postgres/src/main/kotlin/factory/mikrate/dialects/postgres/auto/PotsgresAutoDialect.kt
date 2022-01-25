@@ -1,11 +1,11 @@
-package factory.mikrate.dialects.sqlite.auto
+package factory.mikrate.dialects.postgres.auto
 
 import factory.mikrate.dialects.api.AutoMigrateDialect
 import java.time.Instant
 
-public object SqliteAutoDialect : AutoMigrateDialect {
+public object PotsgresAutoDialect : AutoMigrateDialect {
     override fun ensureMigrationTableCreated(): String {
-        //language=SQLite
+        //language=PostgreSQL
         return """
             CREATE TABLE IF NOT EXISTS AutoMigrations (
                 id blob primary key,
@@ -15,25 +15,26 @@ public object SqliteAutoDialect : AutoMigrateDialect {
     }
 
     override fun transactionPre(): String {
-        //language=SQLite
+        //language=PostgreSQL
         return """
-            BEGIN EXCLUSIVE TRANSACTION;
+            BEGIN TRANSACTION;
         """.trimIndent()
     }
 
     override fun transactionPost(): String {
-        //language=SQLite
+        //language=PostgreSQL
         return "COMMIT;"
     }
 
     override fun insertMigrationIntoLog(id: ByteArray, timestamp: Instant): String {
-        //language=SQLite
+        //language=PostgreSQL
         return """
             INSERT INTO AutoMigrations VALUES (X'${id.hex()}', '$timestamp');
         """.trimIndent()
     }
 
     override fun queryMigrationLog(): String {
+        //language=PostgreSQL
         return """
             SELECT id, timestamp FROM AutoMigrations;
         """.trimIndent()
