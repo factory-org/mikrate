@@ -11,6 +11,7 @@ import java.time.Instant
 import java.util.function.BiFunction
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.reactive.asFlow
+import kotlinx.coroutines.reactive.awaitFirstOrNull
 import kotlinx.coroutines.reactive.awaitLast
 import kotlinx.coroutines.reactive.awaitSingle
 import kotlinx.coroutines.runBlocking
@@ -32,16 +33,16 @@ public class R2dbcExecutor(public val connection: Connection) : MigrationExecuto
     override fun close() {
         runBlocking {
             try {
-                connection.rollbackTransaction().awaitSingle()
+                connection.rollbackTransaction().awaitFirstOrNull()
             } finally {
-                connection.close().awaitSingle()
+                connection.close().awaitFirstOrNull()
             }
         }
     }
 
     private companion object {
         private val logTransformer: BiFunction<Row, RowMetadata, LogRow> = BiFunction { r, _ ->
-            LogRow(r["id", ByteArray::class.java]!!, r["timestamp", Instant::class.java]!!)
+            LogRow(r["id", ByteArray::class.java]!!, Instant.parse(r["timestamp", String::class.java]!!))
         }
     }
 }

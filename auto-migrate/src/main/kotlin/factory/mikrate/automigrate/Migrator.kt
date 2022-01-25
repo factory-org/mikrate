@@ -38,7 +38,8 @@ public class Migrator(
         while (nodeList.isNotEmpty()) {
             val item = nodeList.first()
             nodeList.removeFirst()
-            if (appliedIds.contains(hashMigrationId(item.id))) {
+            val idHash = hashMigrationId(item.id)
+            if (appliedIds.any { it.contentEquals(idHash) }) {
                 continue
             }
             nodeList.addAll(0, item.after)
