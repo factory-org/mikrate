@@ -16,14 +16,12 @@ public object SqliteAutoDialect : AutoMigrateDialect {
 
     override fun transactionPre(): String {
         //language=SQLite
-        return """
-            BEGIN EXCLUSIVE TRANSACTION;
-        """.trimIndent()
+        return ""
     }
 
     override fun transactionPost(): String {
         //language=SQLite
-        return "COMMIT;"
+        return ""
     }
 
     override fun insertMigrationIntoLog(id: ByteArray, timestamp: Instant): String {

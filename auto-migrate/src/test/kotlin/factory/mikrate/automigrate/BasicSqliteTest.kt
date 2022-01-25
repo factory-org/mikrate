@@ -9,6 +9,7 @@ import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.ints.shouldBeExactly
 import java.sql.DriverManager
 
+@Suppress("unused")
 class BasicSqliteTest : ShouldSpec({
     should("work for a simple migration in sqlite") {
         val conn = DriverManager.getConnection("jdbc:sqlite::memory:")

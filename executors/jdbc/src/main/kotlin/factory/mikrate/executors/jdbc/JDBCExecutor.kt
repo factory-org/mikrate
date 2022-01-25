@@ -11,6 +11,9 @@ import java.util.Properties
 
 public class JDBCExecutor(private val connection: Connection) :
     MigrationExecutor {
+    init {
+        connection.autoCommit = false
+    }
 
     public constructor(
         connectionString: String,
