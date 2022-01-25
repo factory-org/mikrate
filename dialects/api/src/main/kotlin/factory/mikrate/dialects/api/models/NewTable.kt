@@ -9,8 +9,9 @@ public data class NewTable(
     public data class Column(
         public val type: DialectDbType,
         public val nullable: Boolean = false,
-        public val unique: String?,
-        public val foreign: ForeignColumnConfig?
+        public val primary: Boolean = false,
+        public val unique: String? = null,
+        public val foreign: ForeignColumnConfig? = null
     ) {
         public data class ForeignColumnConfig(
             val constraintName: String,

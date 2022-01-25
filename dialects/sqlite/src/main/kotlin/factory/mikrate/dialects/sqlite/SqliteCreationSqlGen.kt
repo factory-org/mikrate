@@ -14,6 +14,9 @@ public object SqliteCreationSqlGen : CreationSqlGen {
         if (!column.nullable) {
             col += " not null"
         }
+        if (column.primary) {
+            col += " primary key"
+        }
         if (column.unique != null) {
             col += " constraint ${column.unique} unique"
         }

@@ -14,6 +14,9 @@ public object GenericCreationSqlGen : CreationSqlGen {
         if (!column.nullable) {
             col += " NOT NULL"
         }
+        if (column.primary) {
+            col += " PRIMARY KEY"
+        }
         if (column.unique != null) {
             col += " CONSTRAINT ${column.unique} UNIQUE"
         }

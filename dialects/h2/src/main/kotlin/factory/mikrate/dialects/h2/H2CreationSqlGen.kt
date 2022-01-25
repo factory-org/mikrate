@@ -13,6 +13,9 @@ public class H2CreationSqlGen(protected val typeGen: H2TypeSqlGen) : CreationSql
         if (!column.nullable) {
             col += " not null"
         }
+        if (column.primary) {
+            col += " primary key"
+        }
         if (column.unique != null) {
             col += " constraint ${column.unique} unique"
         }

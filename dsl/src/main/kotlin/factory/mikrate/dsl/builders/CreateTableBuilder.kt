@@ -34,8 +34,8 @@ public class CreateTableBuilder(
      * @param type Type of the column
      * @param nullable Whether the column is nullable
      */
-    public fun column(name: String, type: DbType, nullable: Boolean = false): ColumnRef {
-        columns[name] = NewTable.Column(type.dialectDbType, nullable, null, null)
+    public fun column(name: String, type: DbType, nullable: Boolean = false, primary: Boolean = false): ColumnRef {
+        columns[name] = NewTable.Column(type.dialectDbType, nullable, primary, null, null)
         return ColumnRef(tableName, name)
     }
 
@@ -63,7 +63,7 @@ public class CreateTableBuilder(
                 config.foreignKeyRef.column
             )
         }
-        columns[name] = NewTable.Column(type.dialectDbType, config.nullable, unique, foreign)
+        columns[name] = NewTable.Column(type.dialectDbType, config.nullable, config.primary, unique, foreign)
         return ColumnRef(tableName, name)
     }
 
@@ -137,7 +137,7 @@ public class CreateTableBuilder(
         require(columnMapping.isNotEmpty()) { "Column mapping may not be empty" }
         val localColumns = columnMapping.joinToString("_") { it.first }
         val foreignColumns = columnMapping.joinToString("_") { it.second }
-        val name = "uix_${tableName}_${localColumns}_${foreignTable}_${foreignColumns}"
+        val name = "uix_${tableName}_${localColumns}_${foreignTable}_$foreignColumns"
         foreignKeys(name, foreignTable, columnMapping = columnMapping)
     }
 
@@ -171,7 +171,7 @@ public class CreateTableBuilder(
         require(columnMapping.isNotEmpty()) { "Column mapping may not be empty" }
         val localColumns = columnMapping.joinToString("_") { it.first.column }
         val foreignColumns = columnMapping.joinToString("_") { it.second.column }
-        val name = "uix_${tableName}_${localColumns}_${foreignTable.tableName}_${foreignColumns}"
+        val name = "uix_${tableName}_${localColumns}_${foreignTable.tableName}_$foreignColumns"
         foreignKeys(name, foreignTable, columnMapping = columnMapping)
     }
 
