@@ -8,7 +8,7 @@ public object H2AutoDialect : AutoMigrateDialect {
         //language=H2
         return """
             CREATE TABLE IF NOT EXISTS AutoMigrations (
-                id blob primary key,
+                id BINARY(32) primary key,
                 timestamp text
             )
         """.trimIndent()
@@ -23,9 +23,11 @@ public object H2AutoDialect : AutoMigrateDialect {
     }
 
     override fun insertMigrationIntoLog(id: ByteArray, timestamp: Instant): String {
+        val hex = id.hex()
+        check(id.size == 32) { "Migration id has to have 32 bytes in size" }
         //language=H2
         return """
-            INSERT INTO AutoMigrations VALUES (X'${id.hex()}', '$timestamp');
+            INSERT INTO AutoMigrations VALUES (X'$hex', '$timestamp');
         """.trimIndent()
     }
 

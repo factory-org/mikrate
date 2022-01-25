@@ -16,19 +16,20 @@ public class H2TypeSqlGen : TypeSqlGen {
     }
 
     internal fun mapType(dbType: DialectDbType): String = when (dbType) {
-        DialectDbType.BooleanType -> "boolean"
+        DialectDbType.BooleanType -> "BOOLEAN"
         is DialectDbType.IntegerType -> when (dbType.size) {
-            2.toShort() -> "smallint"
-            4.toShort() -> "integer"
-            8.toShort() -> "bigint"
-            else -> throw NotAvailableError("Postgres doesn't support integer sizes other than 2, 4 or 8")
+            1.toShort() -> "TINYINT"
+            2.toShort() -> "SMALLINT"
+            4.toShort() -> "INTEGER"
+            8.toShort() -> "BIGINT"
+            else -> throw NotAvailableError("H2 doesn't support integer sizes other than 1, 2, 4 or 8")
         }
-        DialectDbType.TextType -> "text"
-        is DialectDbType.VarcharType -> "varchar(${dbType.length})"
-        DialectDbType.UuidType -> "uuid"
-        DialectDbType.ByteType,
-        is DialectDbType.Other -> throw NotAvailableError("Postgres doesn't support this type")
+        DialectDbType.TextType -> "CHARACTER LARGE OBJECT"
+        is DialectDbType.VarcharType -> "VARCHAR2(${dbType.length})"
+        DialectDbType.UuidType -> "UUID"
+        DialectDbType.ByteType -> "TINYINT"
+        is DialectDbType.Other -> throw NotAvailableError("H2 doesn't support this type")
     }
 
-    private val supportedIntegerSizes = setOf<Short>(2, 4, 8)
+    private val supportedIntegerSizes = setOf<Short>(1, 2, 4, 8)
 }
