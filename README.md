@@ -7,7 +7,7 @@ _Flexible migrations for Kotlin_
 [![dialect: sqlite](https://img.shields.io/badge/dialect-sqlite-%23003b57?logo=sqlite)](https://www.sqlite.org)
 [![dialect: postgres](https://img.shields.io/badge/dialect-postgres-%23336791?logo=postgresql)](https://www.postgresql.org/)
 [![docs: mkdocs](https://img.shields.io/badge/docs-mkdocs-%23000000?logo=markdown&logoColor=%23000000)](https://factory-org.gitlab.io/tools/mikrate/)
-[![API docs: dokka](https://img.shields.io/badge/API%20docs-dokka-%23f8873c?logo=kotlin&logoColor=%23f8873c)](https://factory-org.gitlab.io/tools/mikrate/api/)
+[![API docs: dokka](https://img.shields.io/badge/API%20docs-dokka-%23f8873c?logo=kotlin&logoColor=%23f8873c)](https://mikrate-docs.web.app)
 
 🚧 This is still very much work in progress so don't expect all APIs to be stable 🚧
 

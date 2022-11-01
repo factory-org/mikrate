@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "mikrate-docs"
+  },
+  "targets": {
+    "mikrate-docs": {
+      "hosting": {
+        "dev": [
+          "mikrate-docs-dev"
+        ],
+        "stable": [
+          "mikrate-docs"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
