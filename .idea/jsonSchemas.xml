@@ -7,7 +7,7 @@
           <value>
             <SchemaInfo>
               <option name="name" value="gitlab-ci" />
-              <option name="relativePathToSchema" value="https://json.schemastore.org/gitlab-ci" />
+              <option name="relativePathToSchema" value="https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json" />
               <option name="applicationDefined" value="true" />
               <option name="patterns">
                 <list>
