@@ -31,7 +31,7 @@ nav:
   - Guides:
       - guides/index.md
       - Simple:
-          Getting Started: guides/getting-started.md
+          - Getting Started: guides/getting-started.md
   - DSL:
       - dsl/index.md
   - Packages:
