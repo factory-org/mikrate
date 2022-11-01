@@ -1,5 +1,5 @@
 plugins {
-    id("ru.vyarus.mkdocs") version "2.1.1"
+    id("ru.vyarus.mkdocs") version "3.0.0"
     idea
 }
 
@@ -16,12 +16,12 @@ mkdocs {
 
 python {
     pip(
-        "mkdocs:1.2.2",
-        "mkdocs-material:7.2.6",
-        "pygments:2.10.0",
-        "pymdown-extensions:8.2",
-        "mkdocs-git-revision-date-localized-plugin:0.9.3",
-        "mkdocs-section-index:0.3.1"
+        "mkdocs:1.4.1",
+        "mkdocs-material:8.5.7",
+        "pygments:2.13.0",
+        "pymdown-extensions:9.7",
+        "mkdocs-git-revision-date-localized-plugin:1.1.0",
+        "mkdocs-section-index:0.3.4"
     )
 }
 
