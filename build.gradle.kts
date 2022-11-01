@@ -8,8 +8,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URL
 
 plugins {
-    kotlin("jvm") version "1.7.20" apply false
-    id("org.jetbrains.dokka") version "1.7.20"
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.dokka)
 }
 
 val snapshotVersion = "0.1.2"
