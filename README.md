@@ -41,6 +41,21 @@ mig.migrateTo(sampleMigration)
 
 Currently, only the JVM platform is supported.
 
+## Contributing
+
+If you have any feature request, just put them on the issue tracker(s), the library isn't finished and stable yet, so
+it's easier to integrate new stuff now. Issues can be filed on
+[GitLab](https://gitlab.com/factory-org/tools/mikrate/-/issues) (preferred) and
+[GitHub](https://github.com/factory-org/mikrate/issues), for feature request please use GitLab, so the is no split in
+discussion.
+
+If you want to implement something new or improved, free to create
+[a new merge request](https://gitlab.com/factory-org/tools/mikrate/-/merge_requests) on GitLab, for larger features it
+might make sense to create a feature request first, to see if and how the feature even makes sense and save your time
+in case the feature is not fit for inclusion.
+
+Current development docs can be found [here](https://mikrate-docs-dev.web.app).
+
 ## WIP
 
 - Complete documentation
