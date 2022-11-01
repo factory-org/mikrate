@@ -8,7 +8,7 @@ dependencies {
     testImplementation(project(":dsl"))
     testImplementation(libs.jetbrains.annotations)
     testImplementation(libs.bundles.kotest)
-    testImplementation(libs.database.sqlite)
+    testImplementation(libs.database.jdbc.sqlite)
 }
 
 tasks {

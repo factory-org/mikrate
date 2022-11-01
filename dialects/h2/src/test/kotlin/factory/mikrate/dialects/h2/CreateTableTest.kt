@@ -31,7 +31,7 @@ class CreateTableTest : ShouldSpec({
 
             // Verify creation
             conn.createStatement().use {
-                it.executeUpdate("""INSERT INTO TestTable1 VALUES (1);""") shouldBeExactly 1
+                it.executeUpdate("""INSERT INTO "TestTable1" VALUES (1);""") shouldBeExactly 1
             }
         }
     }
@@ -62,21 +62,21 @@ class CreateTableTest : ShouldSpec({
 
             // Insert one value
             conn.createStatement().use {
-                it.executeUpdate("""INSERT INTO TestTable1 VALUES (1, '2d2e272e-6051-48e7-9eaf-efa3e377ca13', '1234567890', 2);""") shouldBeExactly 1
+                it.executeUpdate("""INSERT INTO "TestTable1" VALUES (1, '2d2e272e-6051-48e7-9eaf-efa3e377ca13', '1234567890', 2);""") shouldBeExactly 1
             }
             // Insert another value
             conn.createStatement().use {
-                it.executeUpdate("""INSERT INTO TestTable1 VALUES (2, '2d2e272e-6051-48e7-9eaf-efa3e377ca13', '0987654321', 3);""") shouldBeExactly 1
+                it.executeUpdate("""INSERT INTO "TestTable1" VALUES (2, '2d2e272e-6051-48e7-9eaf-efa3e377ca13', '0987654321', 3);""") shouldBeExactly 1
             }
             // Insert the same value again
             shouldThrow<SQLException> {
                 conn.createStatement().use {
-                    it.executeUpdate("""INSERT INTO TestTable1 VALUES (3, '2d2e272e-6051-48e7-9eaf-efa3e377ca13', '0987654321', 4);""")
+                    it.executeUpdate("""INSERT INTO "TestTable1" VALUES (3, '2d2e272e-6051-48e7-9eaf-efa3e377ca13', '0987654321', 4);""")
                 }
             }
             shouldThrow<SQLException> {
                 conn.createStatement().use {
-                    it.executeUpdate("""INSERT INTO TestTable1 VALUES (3, '2d2e272e-6051-48e7-9eaf-efa3e377ca13', '2345678901', 3);""")
+                    it.executeUpdate("""INSERT INTO "TestTable1" VALUES (3, '2d2e272e-6051-48e7-9eaf-efa3e377ca13', '2345678901', 3);""")
                 }
             }
         }
@@ -120,25 +120,25 @@ class CreateTableTest : ShouldSpec({
 
             // Insert one value
             conn.createStatement().use {
-                it.executeUpdate("""INSERT INTO TestTable1 VALUES (1, 1, '1234567890');""") shouldBeExactly 1
-                it.executeUpdate("""INSERT INTO TestTable1 VALUES (2, 1, '2345678901');""") shouldBeExactly 1
-                it.executeUpdate("""INSERT INTO TestTable1 VALUES (3, 2, '3456789012');""") shouldBeExactly 1
-                it.executeUpdate("""INSERT INTO TestTable1 VALUES (4, 3, '3456789012');""") shouldBeExactly 1
+                it.executeUpdate("""INSERT INTO "TestTable1" VALUES (1, 1, '1234567890');""") shouldBeExactly 1
+                it.executeUpdate("""INSERT INTO "TestTable1" VALUES (2, 1, '2345678901');""") shouldBeExactly 1
+                it.executeUpdate("""INSERT INTO "TestTable1" VALUES (3, 2, '3456789012');""") shouldBeExactly 1
+                it.executeUpdate("""INSERT INTO "TestTable1" VALUES (4, 3, '3456789012');""") shouldBeExactly 1
             }
             // Insert another value
             conn.createStatement().use {
-                it.executeUpdate("""INSERT INTO TestTable2 VALUES (1, 1, '1234567890');""") shouldBeExactly 1
-                it.executeUpdate("""INSERT INTO TestTable2 VALUES (2, 1, '1234567890');""") shouldBeExactly 1
+                it.executeUpdate("""INSERT INTO "TestTable2" VALUES (1, 1, '1234567890');""") shouldBeExactly 1
+                it.executeUpdate("""INSERT INTO "TestTable2" VALUES (2, 1, '1234567890');""") shouldBeExactly 1
             }
             // Insert something not in foreign table
             shouldThrow<SQLException> {
                 conn.createStatement().use {
-                    it.executeUpdate("""INSERT INTO TestTable2 VALUES (3, 2, '2345678901');""")
+                    it.executeUpdate("""INSERT INTO "TestTable2" VALUES (3, 2, '2345678901');""")
                 }
             }
             shouldThrow<SQLException> {
                 conn.createStatement().use {
-                    it.executeUpdate("""INSERT INTO TestTable2 VALUES (5, 3, '2345678901');""")
+                    it.executeUpdate("""INSERT INTO "TestTable2" VALUES (5, 3, '2345678901');""")
                 }
             }
         }

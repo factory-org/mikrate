@@ -10,5 +10,5 @@ dependencies {
     testImplementation(project(":executors:jdbc"))
     testImplementation(libs.bundles.kotest)
     testImplementation(libs.kotest.testcontainers)
-    testRuntimeOnly(libs.database.postgres)
+    testRuntimeOnly(libs.database.jdbc.postgres)
 }

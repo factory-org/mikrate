@@ -12,5 +12,5 @@ dependencies {
     testImplementation(project(":dsl"))
     testImplementation(project(":executors:jdbc"))
     testImplementation(libs.bundles.kotest)
-    runtimeOnly(libs.database.h2)
+    runtimeOnly(libs.database.jdbc.h2)
 }

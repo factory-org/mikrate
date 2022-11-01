@@ -20,21 +20,24 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             val kotlin = version("kotlin", "1.7.20")
+            val kotlinxCoroutines = version("kotlinx-coroutines", "1.6.4")
             val kotest = version("kotest", "5.5.3")
 
             library("logback", "ch.qos.logback:logback-classic:1.4.4")
             library("jetbrains-annotations", "org.jetbrains:annotations:23.0.0")
-            library("r2dbc", "io.r2dbc:r2dbc-spi:0.8.5.RELEASE")
+            library("r2dbc", "io.r2dbc:r2dbc-spi:1.0.0.RELEASE")
 
             library("kotest-junit5", "io.kotest", "kotest-runner-junit5").versionRef(kotest)
             library("kotest-assertions", "io.kotest", "kotest-assertions-core").versionRef(kotest)
             library("kotest-testcontainers", "io.kotest.extensions:kotest-extensions-testcontainers:1.3.4")
 
-            library("database-h2", "com.h2database:h2:2.1.212")
-            library("database-postgres", "org.postgresql:postgresql:42.2.26")
-            library("database-sqlite", "org.xerial:sqlite-jdbc:3.36.0.2")
+            library("database-r2dbc-h2", "io.r2dbc:r2dbc-h2:0.9.1.RELEASE")
+            library("database-jdbc-h2", "com.h2database:h2:2.1.212")
+            library("database-jdbc-postgres", "org.postgresql:postgresql:42.2.26")
+            library("database-jdbc-sqlite", "org.xerial:sqlite-jdbc:3.36.0.2")
 
-            library("kotlinx-coroutines-reactor", "org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.5.2")
+            library("kotlinx-coroutines-reactor", "org.jetbrains.kotlinx", "kotlinx-coroutines-reactor").versionRef(kotlinxCoroutines)
+            library("kotlinx-coroutines-reactive", "org.jetbrains.kotlinx", "kotlinx-coroutines-reactive").versionRef(kotlinxCoroutines)
 
             plugin("kotlin-jvm", "org.jetbrains.kotlin.jvm").versionRef(kotlin)
             plugin("kotlin-dokka", "org.jetbrains.dokka").versionRef(kotlin)

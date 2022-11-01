@@ -7,6 +7,7 @@ import factory.mikrate.dsl.migration
 import factory.mikrate.executors.r2dbc.R2dbcExecutor
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.ints.shouldBeExactly
+import io.kotest.matchers.longs.shouldBeExactly
 import io.r2dbc.spi.Connection
 import io.r2dbc.spi.ConnectionFactories
 import kotlinx.coroutines.reactive.awaitSingle
@@ -28,7 +29,7 @@ class BasicH2Test : ShouldSpec({
 
         mig.migrateTo(simple) shouldBeExactly 1
 
-        val result = conn.createStatement("INSERT INTO TestTable VALUES (1)").execute().awaitSingle()
+        val result = conn.createStatement("""INSERT INTO "TestTable" VALUES (1)""").execute().awaitSingle()
         result.rowsUpdated.awaitSingle() shouldBeExactly 1
     }
 })
