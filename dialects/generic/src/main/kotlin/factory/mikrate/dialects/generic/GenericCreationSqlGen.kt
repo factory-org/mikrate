@@ -2,6 +2,7 @@ package factory.mikrate.dialects.generic
 
 import factory.mikrate.dialects.api.CreationSqlGen
 import factory.mikrate.dialects.api.SupportStatus
+import factory.mikrate.dialects.api.models.NewEnum
 import factory.mikrate.dialects.api.models.NewTable
 import factory.mikrate.dialects.generic.GenericTypeSqlGen.mapType
 
@@ -48,9 +49,15 @@ public object GenericCreationSqlGen : CreationSqlGen {
     }
 
     // TODO: Implement
-    override fun tableSupported(newTable: NewTable): SupportStatus {
-        return SupportStatus.Supported
+    override fun tableSupported(newTable: NewTable): SupportStatus = SupportStatus.Supported
+
+    override fun enum(newEnum: NewEnum): String {
+        val values = newEnum.values.joinToString { "'$it'" }
+        //language=GenericSQL
+        return "create type \"${newEnum.name}\" as enum ($values);"
     }
+
+    override fun enumSupported(newEnum: NewEnum): SupportStatus = SupportStatus.Supported
 
     private fun columnSupported(name: String, nullable: Boolean, unique: String?): SupportStatus =
         SupportStatus.Supported

@@ -13,6 +13,7 @@ public object GenericTypeSqlGen : TypeSqlGen {
         DialectDbType.TextType -> "TEXT"
         is DialectDbType.VarcharType -> "VARCHAR(length = ${dbType.length})"
         DialectDbType.UuidType -> "UUID"
+        is DialectDbType.EnumType -> "ENUM(name = `${dbType.name}`)"
         is DialectDbType.Other -> "OTHER(type = `$dbType`)"
     }
 }

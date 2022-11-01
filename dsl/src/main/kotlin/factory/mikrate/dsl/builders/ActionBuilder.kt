@@ -1,9 +1,11 @@
 package factory.mikrate.dsl.builders
 
 import factory.mikrate.core.MigrateAction
+import factory.mikrate.core.actions.CreateEnumAction
 import factory.mikrate.core.actions.DbSpecificSqlAction
 import factory.mikrate.core.actions.RenameColumnAction
 import factory.mikrate.core.actions.SqlAction
+import factory.mikrate.core.types.EnumType
 import factory.mikrate.dsl.MigrationDsl
 import factory.mikrate.dsl.contexts.TableContext
 import factory.mikrate.dsl.helpers.ColumnRef
@@ -70,8 +72,32 @@ public class ActionBuilder {
 
     /**
      * Returns a reference to the specified table.
+     *
+     * @param name Name of the table referenced.
      */
     public fun table(name: String): TableRef = TableRef(name)
+
+    /**
+     * Creates a new enum type.
+     *
+     * @param name Name of the enum type to be created.
+     * @param values Possible values for the enums.
+     */
+    public fun createEnum(name: String, values: List<String>): EnumType {
+        check(name.isNotBlank()) { "Enum name has to not be blank" }
+        check(values.isNotEmpty()) { "Enum has to have at least one value" }
+        actions.add(CreateEnumAction(name, values))
+        return EnumType(name)
+    }
+    /**
+     * Creates a new enum type.
+     *
+     * @param name Name of the enum type to be created.
+     * @param values Possible values for the enums.
+     */
+    public fun createEnum(name: String, vararg values: String): EnumType {
+        return createEnum(name, values.asList())
+    }
 
     /**
      * Renames a column.

@@ -4,14 +4,15 @@ import factory.mikrate.dialects.api.NotAvailableError
 import factory.mikrate.dialects.api.TypeSqlGen
 import factory.mikrate.dialects.api.models.DialectDbType
 
-public class H2TypeSqlGen : TypeSqlGen {
+public class H2TypeSqlGen(public val quoteIdentifiers: Boolean) : TypeSqlGen {
     override fun supportsType(dbType: DialectDbType): Boolean = when (dbType) {
         DialectDbType.BooleanType,
         DialectDbType.TextType,
         DialectDbType.UuidType,
-        is DialectDbType.VarcharType -> true
-        is DialectDbType.IntegerType -> supportedIntegerSizes.contains(dbType.size)
+        is DialectDbType.VarcharType,
         DialectDbType.ByteType,
+        is DialectDbType.EnumType -> true
+        is DialectDbType.IntegerType -> supportedIntegerSizes.contains(dbType.size)
         is DialectDbType.Other -> false
     }
 
@@ -28,6 +29,7 @@ public class H2TypeSqlGen : TypeSqlGen {
         is DialectDbType.VarcharType -> "VARCHAR2(${dbType.length})"
         DialectDbType.UuidType -> "UUID"
         DialectDbType.ByteType -> "TINYINT"
+        is DialectDbType.EnumType -> if (quoteIdentifiers) "\"${dbType.name}\"" else dbType.name
         is DialectDbType.Other -> throw NotAvailableError("H2 doesn't support this type")
     }
 

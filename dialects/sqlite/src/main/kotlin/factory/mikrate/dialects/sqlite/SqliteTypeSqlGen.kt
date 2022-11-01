@@ -11,6 +11,7 @@ public object SqliteTypeSqlGen : TypeSqlGen {
         DialectDbType.TextType,
         DialectDbType.UuidType,
         is DialectDbType.VarcharType -> true
+        is DialectDbType.EnumType,
         is DialectDbType.Other -> false
     }
 
@@ -21,6 +22,7 @@ public object SqliteTypeSqlGen : TypeSqlGen {
         DialectDbType.TextType,
         is DialectDbType.VarcharType -> "Text"
         DialectDbType.UuidType -> "BLOB"
+        is DialectDbType.EnumType,
         is DialectDbType.Other -> throw IllegalArgumentException("Other type is not supported")
     }
 

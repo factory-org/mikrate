@@ -2,6 +2,7 @@ package factory.mikrate.dialects.sqlite
 
 import factory.mikrate.dialects.api.CreationSqlGen
 import factory.mikrate.dialects.api.SupportStatus
+import factory.mikrate.dialects.api.models.NewEnum
 import factory.mikrate.dialects.api.models.NewTable
 import factory.mikrate.dialects.sqlite.SqliteTypeSqlGen.mapType
 
@@ -57,6 +58,10 @@ public object SqliteCreationSqlGen : CreationSqlGen {
     override fun tableSupported(newTable: NewTable): SupportStatus {
         return SupportStatus.Supported
     }
+
+    override fun enum(newEnum: NewEnum): String = throw UnsupportedOperationException("Enums not supported in SQLite")
+
+    override fun enumSupported(newEnum: NewEnum): SupportStatus = SupportStatus.Unsupported()
 
     private fun columnSupported(name: String, nullable: Boolean, unique: String?): SupportStatus =
         SupportStatus.Supported

@@ -1,4 +1,3 @@
-import java.net.URL
 import org.jetbrains.dokka.gradle.DokkaPlugin
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
@@ -6,17 +5,17 @@ import org.jetbrains.dokka.gradle.GradleDokkaSourceSetBuilder
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.net.URL
 
 plugins {
-    kotlin("jvm") version "1.5.30" apply false
-    id("org.jetbrains.dokka") version "1.5.0"
+    kotlin("jvm") version "1.7.20" apply false
+    id("org.jetbrains.dokka") version "1.7.20"
 }
 
 val snapshotVersion = "0.1.2"
 
 repositories {
     mavenCentral()
-    maven("https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev")
 }
 
 subprojects {
@@ -62,7 +61,6 @@ subprojects {
 
     repositories {
         mavenCentral()
-        maven("https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev")
     }
 
     tasks {
@@ -113,7 +111,7 @@ subprojects {
                 remoteLineSuffix.set("#L")
             }
             skipEmptyPackages.set(true)
-            jdkVersion.set(11)
+            jdkVersion.set(17)
             skipDeprecated.set(true)
             reportUndocumented.set(true)
         }
@@ -130,7 +128,7 @@ subprojects {
         named<DokkaTask>("dokkaJavadoc") {
             dokkaSourceSets.named("main") {
                 skipEmptyPackages.set(true)
-                jdkVersion.set(11)
+                jdkVersion.set(17)
                 skipDeprecated.set(true)
             }
         }

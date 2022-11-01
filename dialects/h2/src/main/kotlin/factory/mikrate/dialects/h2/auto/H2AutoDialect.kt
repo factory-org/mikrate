@@ -7,9 +7,9 @@ public object H2AutoDialect : AutoMigrateDialect {
     override fun ensureMigrationTableCreated(): String {
         //language=H2
         return """
-            CREATE TABLE IF NOT EXISTS AutoMigrations (
-                id BINARY(32) primary key,
-                timestamp text
+            CREATE TABLE IF NOT EXISTS "AutoMigrations" (
+                "id" BINARY(32) primary key,
+                "timestamp" text
             )
         """.trimIndent()
     }
@@ -27,14 +27,14 @@ public object H2AutoDialect : AutoMigrateDialect {
         check(id.size == 32) { "Migration id has to have 32 bytes in size" }
         //language=H2
         return """
-            INSERT INTO AutoMigrations VALUES (X'$hex', '$timestamp');
+            INSERT INTO "AutoMigrations" VALUES (X'$hex', '$timestamp');
         """.trimIndent()
     }
 
     override fun queryMigrationLog(): String {
         //language=H2
         return """
-            SELECT id, timestamp FROM AutoMigrations;
+            SELECT "id", "timestamp" FROM "AutoMigrations";
         """.trimIndent()
     }
 

@@ -2,6 +2,7 @@ package factory.mikrate.dialects.postgres
 
 import factory.mikrate.dialects.api.CreationSqlGen
 import factory.mikrate.dialects.api.SupportStatus
+import factory.mikrate.dialects.api.models.NewEnum
 import factory.mikrate.dialects.api.models.NewTable
 
 public class PostgresCreationSqlGen(protected val typeGen: PostgresTypeSqlGen) : CreationSqlGen {
@@ -57,6 +58,14 @@ public class PostgresCreationSqlGen(protected val typeGen: PostgresTypeSqlGen) :
     override fun tableSupported(newTable: NewTable): SupportStatus {
         return SupportStatus.Supported
     }
+
+    override fun enum(newEnum: NewEnum): String {
+        val values = newEnum.values.joinToString { "'$it'" }
+        //language=PostgreSQL
+        return "create type \"${newEnum.name}\" as enum ($values);"
+    }
+
+    override fun enumSupported(newEnum: NewEnum): SupportStatus = SupportStatus.Supported
 
     private fun columnSupported(name: String, nullable: Boolean, unique: String?): SupportStatus =
         SupportStatus.Supported
