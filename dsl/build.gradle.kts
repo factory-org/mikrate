@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     jacoco
 }
@@ -18,20 +20,30 @@ dependencies {
     testImplementation(libs.bundles.kotest)
 }
 
-tasks.jacocoTestReport {
-    reports {
-        xml.required.set(true)
-        csv.required.set(false)
-        html.required.set(true)
+tasks {
+    jacocoTestReport {
+        reports {
+            xml.required.set(true)
+            csv.required.set(false)
+            html.required.set(true)
+        }
+
+        doLast {
+            val dest = reports.xml.outputLocation.get().asFile
+            jacocoToCobertura(
+                dest,
+                kotlin.sourceSets.main.get().kotlin.srcDirs,
+                dest.parentFile.resolve("${dest.nameWithoutExtension}.cobertura.xml"),
+                sourceToFilename = true
+            )
+        }
     }
 
-    doLast {
-        val dest = reports.xml.outputLocation.get().asFile
-        jacocoToCobertura(
-            dest,
-            kotlin.sourceSets.main.get().kotlin.srcDirs,
-            dest.parentFile.resolve("${dest.nameWithoutExtension}.cobertura.xml"),
-            sourceToFilename = true
-        )
+    withType<KotlinCompile> {
+        kotlinOptions {
+            freeCompilerArgs = listOf(
+                "-opt-in=kotlin.contracts.ExperimentalContracts"
+            )
+        }
     }
 }

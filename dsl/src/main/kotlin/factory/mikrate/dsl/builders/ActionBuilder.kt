@@ -11,6 +11,8 @@ import factory.mikrate.dsl.contexts.TableContext
 import factory.mikrate.dsl.helpers.ColumnRef
 import factory.mikrate.dsl.helpers.TableRef
 import org.intellij.lang.annotations.Language
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 
 /**
  * Builder for building the individual steps of a migrations.
@@ -40,6 +42,10 @@ public class ActionBuilder {
      * @see DbSpecificSqlBuilder
      */
     public fun sql(block: DbSpecificSqlBuilder.() -> Unit) {
+        contract {
+            callsInPlace(block, InvocationKind.EXACTLY_ONCE)
+        }
+
         val builder = DbSpecificSqlBuilder()
         block(builder)
         val mapping = builder.build()
@@ -53,6 +59,10 @@ public class ActionBuilder {
      * @see CreateTableBuilder
      */
     public fun createTable(name: String, block: CreateTableBuilder.() -> Unit): TableRef {
+        contract {
+            callsInPlace(block, InvocationKind.EXACTLY_ONCE)
+        }
+
         val builder = CreateTableBuilder(name)
         block(builder)
         actions.add(builder.build())
@@ -65,6 +75,10 @@ public class ActionBuilder {
      * @see TableContext
      */
     public fun table(name: String, block: TableContext.() -> Unit) {
+        contract {
+            callsInPlace(block, InvocationKind.EXACTLY_ONCE)
+        }
+
         val context = TableContext(name)
         block(context)
         actions.addAll(context.actions)

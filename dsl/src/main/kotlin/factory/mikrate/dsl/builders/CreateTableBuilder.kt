@@ -6,6 +6,8 @@ import factory.mikrate.dialects.api.models.NewTable
 import factory.mikrate.dsl.MigrationDsl
 import factory.mikrate.dsl.helpers.ColumnRef
 import factory.mikrate.dsl.helpers.TableRef
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 
 /**
  * Defines a new table to be created.
@@ -47,6 +49,10 @@ public class CreateTableBuilder(
      * @param block Extended configuration of the column
      */
     public fun column(name: String, type: DbType, block: ColumnConfigurer.() -> Unit): ColumnRef {
+        contract {
+            callsInPlace(block, InvocationKind.EXACTLY_ONCE)
+        }
+
         val configurer = ColumnConfigurer(tableName, name)
         block(configurer)
         val config = configurer.config()
