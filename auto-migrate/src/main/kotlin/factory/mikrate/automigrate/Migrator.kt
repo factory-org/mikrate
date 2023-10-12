@@ -12,6 +12,11 @@ public class Migrator(
     private val autoDialect: AutoMigrateDialect,
     private val dialect: CoreDialect
 ) {
+    /**
+     * Applies all desired migrations up to the specified migration.
+     * @param migration The migration to migrate up to
+     * @return The number of migrations that have been applied
+     */
     public suspend fun migrateTo(migration: Migration): Int {
         executor.executeStatement(autoDialect.ensureMigrationTableCreated())
         val appliedMigrations = executor.listAppliedMigrations(autoDialect)

@@ -48,4 +48,27 @@ class BasicSqliteTest : ShouldSpec({
             }
         }
     }
+
+    should("be able to skip a second call to migrate") {
+        val conn = DriverManager.getConnection("jdbc:sqlite::memory:")
+        conn.use {
+            val exec = JDBCExecutor(conn)
+            val mig = Migrator(exec, SqliteAutoDialect, SqliteCoreDialect)
+
+            val simple by migration {
+                up {
+                    createTable("TestTable") {
+                        column("test", IntegerType)
+                    }
+                }
+            }
+
+            mig.migrateTo(simple) shouldBeExactly 1
+            mig.migrateTo(simple) shouldBeExactly 0
+
+            conn.createStatement().use {
+                it.executeUpdate("INSERT INTO TestTable VALUES (1)") shouldBeExactly 1
+            }
+        }
+    }
 })
