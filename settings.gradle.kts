@@ -15,6 +15,13 @@ include(
     ":dialects:generic",
 )
 
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev")
+    }
+}
+
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version("0.7.0")
 }
@@ -71,12 +78,5 @@ buildCache {
     }
     local {
         isEnabled = !isCiServer
-    }
-}
-
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        maven("https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev")
     }
 }
