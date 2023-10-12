@@ -1,7 +1,6 @@
 package factory.mikrate.dialects.h2.auto
 
 import factory.mikrate.dialects.api.AutoMigrateDialect
-import java.time.Instant
 
 public object H2AutoDialect : AutoMigrateDialect {
     override fun ensureMigrationTableCreated(): String {
@@ -22,7 +21,7 @@ public object H2AutoDialect : AutoMigrateDialect {
         return ""
     }
 
-    override fun insertMigrationIntoLog(id: ByteArray, timestamp: Instant): String {
+    override fun insertMigrationIntoLog(id: ByteArray, timestamp: String): String {
         val hex = id.hex()
         check(id.size == 32) { "Migration id has to have 32 bytes in size" }
         //language=H2

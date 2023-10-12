@@ -12,7 +12,7 @@ plugins {
     alias(libs.plugins.kotlin.dokka)
 }
 
-val snapshotVersion = "0.1.2"
+val snapshotVersion = "0.1.3"
 
 repositories {
     mavenCentral()
@@ -57,6 +57,9 @@ subprojects {
 
     configure<KotlinJvmProjectExtension> {
         explicitApi()
+        jvmToolchain {
+            languageVersion.set(JavaLanguageVersion.of(11))
+        }
     }
 
     repositories {
@@ -78,8 +81,10 @@ subprojects {
             inputs.file("src/main/java/module-info.java")
             doLast {
                 val moduleModified = file("src/main/java/module-info.java").lastModified()
-                if (file("$buildDir/classes/kotlin").exists()) {
-                    fileTree("$buildDir/classes/kotlin").forEach {
+                val buildDirectory = layout.buildDirectory.get()
+                val kotlinClassDir = buildDirectory.file("classes/kotlin")
+                if (kotlinClassDir.asFile.exists()) {
+                    fileTree(kotlinClassDir).forEach {
                         if (moduleModified > it.lastModified()) {
                             it.delete()
                         }

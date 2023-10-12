@@ -1,7 +1,6 @@
 package factory.mikrate.dialects.postgres.auto
 
 import factory.mikrate.dialects.api.AutoMigrateDialect
-import java.time.Instant
 
 public object PotsgresAutoDialect : AutoMigrateDialect {
     override fun ensureMigrationTableCreated(): String {
@@ -26,7 +25,7 @@ public object PotsgresAutoDialect : AutoMigrateDialect {
         return "COMMIT;"
     }
 
-    override fun insertMigrationIntoLog(id: ByteArray, timestamp: Instant): String {
+    override fun insertMigrationIntoLog(id: ByteArray, timestamp: String): String {
         //language=PostgreSQL
         return """
             INSERT INTO AutoMigrations VALUES (X'${id.hex()}', '$timestamp');

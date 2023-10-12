@@ -1,7 +1,6 @@
 package factory.mikrate.dialects.sqlite.auto
 
 import factory.mikrate.dialects.api.AutoMigrateDialect
-import java.time.Instant
 
 public object SqliteAutoDialect : AutoMigrateDialect {
     override fun ensureMigrationTableCreated(): String {
@@ -24,7 +23,7 @@ public object SqliteAutoDialect : AutoMigrateDialect {
         return ""
     }
 
-    override fun insertMigrationIntoLog(id: ByteArray, timestamp: Instant): String {
+    override fun insertMigrationIntoLog(id: ByteArray, timestamp: String): String {
         //language=SQLite
         return """
             INSERT INTO AutoMigrations VALUES (X'${id.hex()}', '$timestamp');

@@ -21,7 +21,7 @@ public class Migrator(
             val stmt = listOf(
                 autoDialect.transactionPre(),
                 up,
-                autoDialect.insertMigrationIntoLog(hashMigrationId(current.id), Instant.now()),
+                autoDialect.insertMigrationIntoLog(hashMigrationId(current.id), Instant.now().toString()),
                 autoDialect.transactionPost()
             ).joinToString("\n\n")
             executor.executeStatement(stmt)
