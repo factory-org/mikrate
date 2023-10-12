@@ -166,7 +166,7 @@ private fun methodLines(oldMethod: Element, oldMethods: List<Element>, oldLines:
     val startLine = oldMethod.getAttribute("line").toInt()
     val larger = oldMethods.filter { lineIsAfter(it, startLine) }.map { it.getAttribute("line").toInt() }
     // Gemnasium doesn't like it: https://gitlab.com/gitlab-org/gitlab/-/issues/340463
-    val endLine = larger.min()
+    val endLine = larger.minOrNull() ?: Int.MAX_VALUE
 
     for (oldLine in oldLines) {
         if (oldLine.getAttribute("nr").toInt() in startLine until endLine) {

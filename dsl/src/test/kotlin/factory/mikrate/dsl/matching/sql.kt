@@ -14,22 +14,26 @@ private class SqlMatcher(private val sqlString: String) : Matcher<String> {
 
         return MatcherResult(
             expected == actual,
-            """
-SQL statements should match:
-    expected:
-    ${sqlString.replace("\n", "\n    ")}
-    
-    actual:
-    ${value.replace("\n", "\n    ")}
-""".trimIndent(),
-            """
-SQL statements should not match:
-    expected:
-    ${sqlString.replace("\n", "\n    ")}
-    
-    actual:
-    ${value.replace("\n", "\n    ")}
-""".trimIndent()
+            {
+                """
+                SQL statements should match:
+                    expected:
+                    ${sqlString.replace("\n", "\n    ")}
+                    
+                    actual:
+                    ${value.replace("\n", "\n    ")}
+                """.trimIndent()
+            },
+            {
+                """
+                SQL statements should not match:
+                    expected:
+                    ${sqlString.replace("\n", "\n    ")}
+                    
+                    actual:
+                    ${value.replace("\n", "\n    ")}
+                """.trimIndent()
+            }
         )
     }
 

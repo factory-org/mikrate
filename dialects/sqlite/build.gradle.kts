@@ -14,7 +14,7 @@ dependencies {
 tasks {
     compileTestKotlin {
         kotlinOptions {
-            freeCompilerArgs = listOf("-Xopt-in=kotlin.contracts.ExperimentalContracts")
+            freeCompilerArgs = listOf("-opt-in=kotlin.contracts.ExperimentalContracts")
         }
     }
 }

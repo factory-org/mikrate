@@ -6,7 +6,6 @@ variables:
 
 stages:
   - test
-  - docs
   - deploy
 
 test:
@@ -36,7 +35,7 @@ test:
 
 pages-test:
   image: registry.gitlab.com/factory-org/tools/docker/gradle-mkdocs
-  stage: docs
+  stage: deploy
   interruptible: true
   dependencies: [ ]
   needs: [ ]
