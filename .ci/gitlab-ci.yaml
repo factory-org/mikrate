@@ -1,12 +1,8 @@
 image: azul/zulu-openjdk-alpine:17
 
-include:
-  - template: Dependency-Scanning.gitlab-ci.yml
-
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.configureondemand=true"
   GRADLE_USER_HOME: "${CI_PROJECT_DIR}/.gradle"
-  DS_DEFAULT_ANALYZERS: "gemnasium-maven"
 
 stages:
   - test
@@ -37,12 +33,6 @@ test:
       coverage_report:
         coverage_format: cobertura
         path: dsl/build/reports/jacoco/test/jacocoTestReport.cobertura.xml
-
-gemnasium-maven-dependency_scanning:
-  variables:
-    SECURE_LOG_LEVEL: "debug"
-  interruptible: true
-  allow_failure: false
 
 pages-test:
   image: registry.gitlab.com/factory-org/tools/docker/gradle-mkdocs
@@ -104,7 +94,6 @@ deploy:
   stage: deploy
   dependencies: [ ]
   needs:
-    - gemnasium-maven-dependency_scanning
     - test
   cache:
     key: "${CI_COMMIT_REF_SLUG}"
