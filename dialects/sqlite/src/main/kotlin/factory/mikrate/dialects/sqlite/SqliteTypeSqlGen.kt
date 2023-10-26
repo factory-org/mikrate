@@ -17,10 +17,15 @@ public object SqliteTypeSqlGen : TypeSqlGen {
 
     internal fun mapType(dbType: DialectDbType): String = when (dbType) {
         DialectDbType.BooleanType -> "NUMERIC"
-        DialectDbType.ByteType,
-        is DialectDbType.IntegerType -> "INTEGER"
-        DialectDbType.TextType,
-        is DialectDbType.VarcharType -> "Text"
+        DialectDbType.ByteType -> "TINYINT"
+        is DialectDbType.IntegerType -> when (dbType.size) {
+            2.toShort() -> "SMALLINT"
+            4.toShort() -> "INTEGER"
+            8.toShort() -> "BIGINT"
+            else -> "INT"
+        }
+        DialectDbType.TextType -> "TEXT"
+        is DialectDbType.VarcharType -> "VARCHAR(${dbType.length})"
         DialectDbType.UuidType -> "BLOB"
         is DialectDbType.EnumType,
         is DialectDbType.Other -> throw IllegalArgumentException("Other type is not supported")
