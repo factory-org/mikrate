@@ -14,6 +14,7 @@ public object GenericTypeSqlGen : TypeSqlGen {
         is DialectDbType.VarcharType -> "VARCHAR(length = ${dbType.length})"
         DialectDbType.UuidType -> "UUID"
         is DialectDbType.EnumType -> "ENUM(name = `${dbType.name}`)"
+        is DialectDbType.JsonType -> "JSON(preserveExact = `${dbType.preserveExact}`)"
         is DialectDbType.Other -> "OTHER(type = `$dbType`)"
     }
 }
