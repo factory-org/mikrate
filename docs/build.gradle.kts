@@ -15,7 +15,6 @@ mkdocs {
 }
 
 python {
-    installVirtualenv = false
     pip(
         "mkdocs:1.4.1",
         "mkdocs-material:8.5.7",

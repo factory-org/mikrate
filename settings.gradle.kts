@@ -23,19 +23,19 @@ pluginManagement {
 }
 
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version("0.7.0")
+    id("org.gradle.toolchains.foojay-resolver-convention") version("0.8.0")
 }
 
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
-            val kotlin = version("kotlin", "1.9.10")
+            val kotlin = version("kotlin", "1.9.22")
             val kotlinxCoroutines = version("kotlinx-coroutines", "1.7.3")
-            val kotest = version("kotest", "5.7.2")
-            val dokka = version("dokka", "1.9.0")
+            val kotest = version("kotest", "5.8.0")
+            val dokka = version("dokka", "1.9.10")
 
-            library("logback", "ch.qos.logback:logback-classic:1.4.11")
-            library("jetbrains-annotations", "org.jetbrains:annotations:24.0.1")
+            library("logback", "ch.qos.logback:logback-classic:1.4.14")
+            library("jetbrains-annotations", "org.jetbrains:annotations:24.1.0")
             library("r2dbc", "io.r2dbc:r2dbc-spi:1.0.0.RELEASE")
 
             library("kotest-junit5", "io.kotest", "kotest-runner-junit5").versionRef(kotest)
@@ -44,8 +44,8 @@ dependencyResolutionManagement {
 
             library("database-r2dbc-h2", "io.r2dbc:r2dbc-h2:1.0.0.RELEASE")
             library("database-jdbc-h2", "com.h2database:h2:2.2.224")
-            library("database-jdbc-postgres", "org.postgresql:postgresql:42.6.0")
-            library("database-jdbc-sqlite", "org.xerial:sqlite-jdbc:3.43.0.0")
+            library("database-jdbc-postgres", "org.postgresql:postgresql:42.7.1")
+            library("database-jdbc-sqlite", "org.xerial:sqlite-jdbc:3.44.1.0")
 
             library("kotlinx-coroutines-reactor", "org.jetbrains.kotlinx", "kotlinx-coroutines-reactor").versionRef(kotlinxCoroutines)
             library("kotlinx-coroutines-reactive", "org.jetbrains.kotlinx", "kotlinx-coroutines-reactive").versionRef(kotlinxCoroutines)
