@@ -8,5 +8,6 @@ public sealed interface DialectDbType {
     public object UuidType : DialectDbType
     public class VarcharType(public val length: Int) : DialectDbType
     public class EnumType(public val name: String) : DialectDbType
+    public class JsonType(public val preserveExact: Boolean) : DialectDbType
     public interface Other : DialectDbType
 }

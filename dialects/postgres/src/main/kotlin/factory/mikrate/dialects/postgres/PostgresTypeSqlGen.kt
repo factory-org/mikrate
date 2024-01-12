@@ -12,7 +12,8 @@ public class PostgresTypeSqlGen(protected val version: PostgresVersion) : TypeSq
         is DialectDbType.VarcharType -> true
         is DialectDbType.IntegerType -> supportedIntegerSizes.contains(dbType.size)
         DialectDbType.ByteType,
-        is DialectDbType.EnumType -> true
+        is DialectDbType.EnumType,
+        is DialectDbType.JsonType -> true
         is DialectDbType.Other -> false
     }
 
@@ -29,6 +30,7 @@ public class PostgresTypeSqlGen(protected val version: PostgresVersion) : TypeSq
         DialectDbType.UuidType -> "uuid"
         DialectDbType.ByteType,
         is DialectDbType.EnumType -> (dbType as DialectDbType.EnumType).name
+        is DialectDbType.JsonType -> if (dbType.preserveExact) "json" else "jsonb"
         is DialectDbType.Other -> throw NotAvailableError("Postgres doesn't support this type")
     }
 

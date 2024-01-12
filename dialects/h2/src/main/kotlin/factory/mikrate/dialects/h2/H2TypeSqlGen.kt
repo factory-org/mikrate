@@ -11,7 +11,8 @@ public class H2TypeSqlGen(public val quoteIdentifiers: Boolean) : TypeSqlGen {
         DialectDbType.UuidType,
         is DialectDbType.VarcharType,
         DialectDbType.ByteType,
-        is DialectDbType.EnumType -> true
+        is DialectDbType.EnumType,
+        is DialectDbType.JsonType -> true
         is DialectDbType.IntegerType -> supportedIntegerSizes.contains(dbType.size)
         is DialectDbType.Other -> false
     }
@@ -29,6 +30,7 @@ public class H2TypeSqlGen(public val quoteIdentifiers: Boolean) : TypeSqlGen {
         is DialectDbType.VarcharType -> "VARCHAR2(${dbType.length})"
         DialectDbType.UuidType -> "UUID"
         DialectDbType.ByteType -> "TINYINT"
+        is DialectDbType.JsonType -> "JSON"
         is DialectDbType.EnumType -> if (quoteIdentifiers) "\"${dbType.name}\"" else dbType.name
         is DialectDbType.Other -> throw NotAvailableError("H2 doesn't support this type")
     }
