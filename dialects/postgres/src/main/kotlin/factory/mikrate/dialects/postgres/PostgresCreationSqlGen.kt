@@ -44,7 +44,7 @@ public class PostgresCreationSqlGen(protected val typeGen: PostgresTypeSqlGen) :
 
     private fun generateCompositePrimaryKey(columns: Set<String>): String {
         //language=PostgreSQL
-        return "primary key (${columns.joinToString()}))"
+        return "primary key (${columns.joinToString()})"
     }
 
     public override fun table(newTable: NewTable): String {

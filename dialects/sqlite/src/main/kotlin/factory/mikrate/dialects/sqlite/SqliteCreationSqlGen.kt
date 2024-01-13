@@ -44,7 +44,7 @@ public object SqliteCreationSqlGen : CreationSqlGen {
 
     private fun generateCompositePrimaryKey(columns: Set<String>): String {
         //language=SQLite
-        return "primary key (${columns.joinToString()}))"
+        return "primary key (${columns.joinToString()})"
     }
 
     public override fun table(newTable: NewTable): String {

@@ -43,7 +43,8 @@ public object GenericCreationSqlGen : CreationSqlGen {
     }
 
     private fun generateCompositePrimaryKey(columns: Set<String>): String {
-        return "primary key (${columns.joinToString()}))"
+        //language=GenericSQL
+        return "primary key (${columns.joinToString()})"
     }
 
     public override fun table(newTable: NewTable): String {

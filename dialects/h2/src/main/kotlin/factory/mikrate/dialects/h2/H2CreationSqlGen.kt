@@ -54,7 +54,8 @@ public class H2CreationSqlGen(private val typeGen: H2TypeSqlGen, public val quot
     }
 
     private fun generateCompositePrimaryKey(columns: Set<String>): String {
-        return "primary key (${columns.joinToString()}))"
+        //language=H2
+        return "primary key (${columns.joinToString()})"
     }
 
     public override fun table(newTable: NewTable): String {
