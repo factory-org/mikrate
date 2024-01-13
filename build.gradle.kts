@@ -12,7 +12,7 @@ plugins {
     alias(libs.plugins.kotlin.dokka)
 }
 
-val snapshotVersion = "0.1.4"
+val snapshotVersion = "0.1.5"
 
 repositories {
     mavenCentral()
