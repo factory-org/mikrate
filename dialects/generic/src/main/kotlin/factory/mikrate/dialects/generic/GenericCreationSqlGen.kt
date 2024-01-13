@@ -29,17 +29,6 @@ public object GenericCreationSqlGen : CreationSqlGen {
         return col
     }
 
-    private fun generateForeignKeyConstraint(
-        name: String,
-        foreignTable: String,
-        columnMapping: Map<String, String>
-    ): String {
-        val localColumns = columnMapping.keys.joinToString()
-        val foreignColumns = columnMapping.values.joinToString()
-        //language=GenericSQL
-        return "CONSTRAINT $name FOREIGN KEY ($localColumns) REFERENCES $foreignTable ($foreignColumns)"
-    }
-
     private fun generateConstraint(name: String, constraint: NewTable.Constraint): String = when (constraint) {
         is NewTable.Constraint.UniqueConstraint -> {
             //language=GenericSQL
@@ -59,18 +48,8 @@ public object GenericCreationSqlGen : CreationSqlGen {
 
     public override fun table(newTable: NewTable): String {
         val columns = newTable.columns.map { generateColumn(it.key, it.value) }
-        val foreignConstraints = newTable.columns
-            .mapNotNull {
-                val (name, column) = it
-                val foreign = column.foreign ?: return@mapNotNull null
-                generateForeignKeyConstraint(
-                    foreign.constraintName,
-                    foreign.foreignTable,
-                    mapOf(name to foreign.foreignColumn)
-                )
-            }
         val constraints = newTable.constraints.map { generateConstraint(it.key, it.value) }
-        val contentList = (columns + foreignConstraints + constraints).toMutableList()
+        val contentList = (columns + constraints).toMutableList()
         val compositePrimaryKey = newTable.compositePrimaryKey
         if (compositePrimaryKey != null) {
             contentList.add(generateCompositePrimaryKey(compositePrimaryKey))
