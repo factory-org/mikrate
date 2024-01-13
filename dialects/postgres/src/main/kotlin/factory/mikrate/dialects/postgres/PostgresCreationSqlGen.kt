@@ -26,11 +26,13 @@ public class PostgresCreationSqlGen(protected val typeGen: PostgresTypeSqlGen) :
     private fun generateForeignKeyConstraint(name: String, foreignTable: String, columnMapping: Map<String, String>): String {
         val localColumns = columnMapping.keys.joinToString()
         val foreignColumns = columnMapping.values.joinToString()
+        //language=PostgreSQL
         return "constraint $name foreign key ($localColumns) references $foreignTable ($foreignColumns)"
     }
 
     private fun generateConstraint(name: String, constraint: NewTable.Constraint): String = when (constraint) {
         is NewTable.Constraint.UniqueConstraint -> {
+            //language=PostgreSQL
             "constraint $name unique (${constraint.columns.joinToString()})"
         }
         is NewTable.Constraint.ForeignKey -> generateForeignKeyConstraint(
@@ -38,6 +40,11 @@ public class PostgresCreationSqlGen(protected val typeGen: PostgresTypeSqlGen) :
             constraint.foreignTable,
             constraint.columnMapping
         )
+    }
+
+    private fun generateCompositePrimaryKey(columns: Set<String>): String {
+        //language=PostgreSQL
+        return "primary key (${columns.joinToString()}))"
     }
 
     public override fun table(newTable: NewTable): String {
@@ -49,7 +56,12 @@ public class PostgresCreationSqlGen(protected val typeGen: PostgresTypeSqlGen) :
                 generateForeignKeyConstraint(foreign.constraintName, foreign.foreignTable, mapOf(name to foreign.foreignColumn))
             }
         val constraints = newTable.constraints.map { generateConstraint(it.key, it.value) }
-        val content = (columns + foreignConstraints + constraints).joinToString(",\n    ")
+        val contentList = (columns + foreignConstraints + constraints).toMutableList()
+        val compositePrimaryKey = newTable.compositePrimaryKey
+        if (compositePrimaryKey != null) {
+            contentList.add(generateCompositePrimaryKey(compositePrimaryKey))
+        }
+        val content = contentList.joinToString(",\n    ")
         //language=PostgreSQL
         return "create table ${newTable.name} (\n    $content\n);"
     }

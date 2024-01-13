@@ -4,7 +4,8 @@ public data class NewTable(
     public val name: String,
     public val columns: Map<String, Column>,
     public val constraints: Map<String, Constraint>,
-    public val ifNotExists: Boolean = false
+    public val ifNotExists: Boolean = false,
+    public val compositePrimaryKey: Set<String>? = null,
 ) {
     public data class Column(
         public val type: DialectDbType,

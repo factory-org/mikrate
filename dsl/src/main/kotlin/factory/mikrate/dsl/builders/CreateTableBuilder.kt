@@ -17,7 +17,11 @@ public class CreateTableBuilder(
     /**
      * The name of the table to build.
      */
-    public val tableName: String
+    public val tableName: String,
+    /**
+     * Whether "if not exist" should be used in creation.
+     */
+    public val ifNotExists: Boolean = false,
 ) {
     /**
      * A list of all columns of the new table.
@@ -28,6 +32,11 @@ public class CreateTableBuilder(
      * A list of constraints of the new table.
      */
     private val constraints: MutableMap<String, NewTable.Constraint> = mutableMapOf()
+
+    /**
+     * A list of columns that make up the primary key.
+     */
+    private var compositePrimaryKey: Set<String>? = null
 
     /**
      * Adds a new column to the table.
@@ -181,10 +190,20 @@ public class CreateTableBuilder(
         foreignKeys(name, foreignTable, columnMapping = columnMapping)
     }
 
+    public fun primaryKey(vararg columns: ColumnRef) {
+        require(columns.isNotEmpty()) { "Columns may not be empty" }
+        compositePrimaryKey = columns.map { it.column }.toSet()
+    }
+
+    public fun primaryKey(vararg columns: String) {
+        require(columns.isNotEmpty()) { "Columns may not be empty" }
+        compositePrimaryKey = columns.toSet()
+    }
+
     /**
      * @suppress
      */
     public fun build(): CreateTableAction {
-        return CreateTableAction(tableName, columns, constraints)
+        return CreateTableAction(tableName, columns, constraints, ifNotExists, compositePrimaryKey)
     }
 }

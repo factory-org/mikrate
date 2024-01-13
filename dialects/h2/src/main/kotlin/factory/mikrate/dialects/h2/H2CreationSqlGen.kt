@@ -53,6 +53,10 @@ public class H2CreationSqlGen(private val typeGen: H2TypeSqlGen, public val quot
         )
     }
 
+    private fun generateCompositePrimaryKey(columns: Set<String>): String {
+        return "primary key (${columns.joinToString()}))"
+    }
+
     public override fun table(newTable: NewTable): String {
         val columns = newTable.columns.map { generateColumn(it.key, it.value) }
         val foreignConstraints = newTable.columns
@@ -66,7 +70,12 @@ public class H2CreationSqlGen(private val typeGen: H2TypeSqlGen, public val quot
                 )
             }
         val constraints = newTable.constraints.map { generateConstraint(it.key, it.value) }
-        val content = (columns + foreignConstraints + constraints).joinToString(",\n    ")
+        val contentList = (columns + foreignConstraints + constraints).toMutableList()
+        val compositePrimaryKey = newTable.compositePrimaryKey
+        if (compositePrimaryKey != null) {
+            contentList.add(generateCompositePrimaryKey(compositePrimaryKey))
+        }
+        val content = contentList.joinToString(",\n    ")
         val quotedName = if (quoteIdentifiers) "\"${newTable.name}\"" else newTable.name
         //language=H2
         return "create table $quotedName (\n    $content\n);"

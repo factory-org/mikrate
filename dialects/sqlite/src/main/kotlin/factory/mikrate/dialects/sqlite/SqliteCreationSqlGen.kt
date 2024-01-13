@@ -27,17 +27,24 @@ public object SqliteCreationSqlGen : CreationSqlGen {
     private fun generateForeignKeyConstraint(foreignTable: String, columnMapping: Map<String, String>): String {
         val localColumns = columnMapping.keys.joinToString()
         val foreignColumns = columnMapping.values.joinToString()
+        //language=SQLite
         return "foreign key ($localColumns) references $foreignTable ($foreignColumns)"
     }
 
     private fun generateConstraint(name: String, constraint: NewTable.Constraint): String = when (constraint) {
         is NewTable.Constraint.UniqueConstraint -> {
+            //language=SQLite
             "constraint $name unique (${constraint.columns.joinToString()})"
         }
         is NewTable.Constraint.ForeignKey -> generateForeignKeyConstraint(
             constraint.foreignTable,
             constraint.columnMapping
         )
+    }
+
+    private fun generateCompositePrimaryKey(columns: Set<String>): String {
+        //language=SQLite
+        return "primary key (${columns.joinToString()}))"
     }
 
     public override fun table(newTable: NewTable): String {
@@ -49,7 +56,12 @@ public object SqliteCreationSqlGen : CreationSqlGen {
                 generateForeignKeyConstraint(foreign.foreignTable, mapOf(name to foreign.foreignColumn))
             }
         val constraints = newTable.constraints.map { generateConstraint(it.key, it.value) }
-        val content = (columns + foreignConstraints + constraints).joinToString(",\n    ")
+        val contentList = (columns + foreignConstraints + constraints).toMutableList()
+        val compositePrimaryKey = newTable.compositePrimaryKey
+        if (compositePrimaryKey != null) {
+            contentList.add(generateCompositePrimaryKey(compositePrimaryKey))
+        }
+        val content = contentList.joinToString(",\n    ")
         //language=SQLite
         return "CREATE TABLE ${newTable.name} (\n    $content\n);"
     }

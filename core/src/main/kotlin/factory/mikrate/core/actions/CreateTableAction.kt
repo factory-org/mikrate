@@ -9,7 +9,8 @@ public class CreateTableAction(
     public val name: String,
     public val columns: Map<String, NewTable.Column>,
     public val constraints: Map<String, NewTable.Constraint>,
-    public val ifNotExists: Boolean = false
+    public val ifNotExists: Boolean = false,
+    public val compositePrimaryKey: Set<String>? = null,
 ) : MigrateAction {
     override fun generateStatement(dialect: CoreDialect): String {
         return dialect.creation.table(newTable())
@@ -19,5 +20,5 @@ public class CreateTableAction(
         return dialect.creation.tableSupported(newTable())
     }
 
-    private fun newTable(): NewTable = NewTable(name, columns, constraints, ifNotExists)
+    private fun newTable(): NewTable = NewTable(name, columns, constraints, ifNotExists, compositePrimaryKey)
 }
