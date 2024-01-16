@@ -17,7 +17,7 @@ public object SqliteTypeSqlGen : TypeSqlGen {
     }
 
     internal fun mapType(dbType: DialectDbType): String = when (dbType) {
-        DialectDbType.BooleanType -> "NUMERIC"
+        DialectDbType.BooleanType -> "BOOLEAN"
         DialectDbType.ByteType -> "TINYINT"
         is DialectDbType.IntegerType -> when (dbType.size) {
             2.toShort() -> "SMALLINT"

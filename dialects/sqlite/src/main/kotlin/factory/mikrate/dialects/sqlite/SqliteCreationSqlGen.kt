@@ -6,7 +6,7 @@ import factory.mikrate.dialects.api.models.NewEnum
 import factory.mikrate.dialects.api.models.NewTable
 import factory.mikrate.dialects.sqlite.SqliteTypeSqlGen.mapType
 
-public object SqliteCreationSqlGen : CreationSqlGen {
+public open class SqliteCreationSqlGen(protected val options: SqliteDialectOptions) : CreationSqlGen {
     private fun generateColumn(
         name: String,
         column: NewTable.Column
@@ -62,8 +62,12 @@ public object SqliteCreationSqlGen : CreationSqlGen {
             contentList.add(generateCompositePrimaryKey(compositePrimaryKey))
         }
         val content = contentList.joinToString(",\n    ")
+        val strict = if (options.createStrictTables) {
+            " STRICT"
+        } else ""
+
         //language=SQLite
-        return "CREATE TABLE ${newTable.name} (\n    $content\n);"
+        return "CREATE TABLE ${newTable.name} (\n    $content\n)$strict;"
     }
 
     // TODO: Implement
