@@ -8,4 +8,6 @@ public open class SqliteCoreDialect(protected val options: SqliteDialectOptions 
     override val constraints: ConstraintSqlGen = SqliteConstraintSqlGen
     override val creation: CreationSqlGen = SqliteCreationSqlGen(options)
     override val alter: AlterSqlGen = SqliteAlterSqlGen
+
+    public companion object : SqliteCoreDialect()
 }

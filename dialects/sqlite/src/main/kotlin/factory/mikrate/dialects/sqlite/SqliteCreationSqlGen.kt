@@ -62,12 +62,8 @@ public open class SqliteCreationSqlGen(protected val options: SqliteDialectOptio
             contentList.add(generateCompositePrimaryKey(compositePrimaryKey))
         }
         val content = contentList.joinToString(",\n    ")
-        val strict = if (options.createStrictTables) {
-            " STRICT"
-        } else ""
-
         //language=SQLite
-        return "CREATE TABLE ${newTable.name} (\n    $content\n)$strict;"
+        return "CREATE TABLE ${newTable.name} (\n    $content\n);"
     }
 
     // TODO: Implement
